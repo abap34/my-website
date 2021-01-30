@@ -433,7 +433,9 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 /*-----------------------------------*/
 /*----- ADD YOUR STYLES BELOW -------*/
-.output pre { background-color: #ffffff; color: rgba(0, 0, 0, 0.603); }
+.output pre { background-color: #ffffff; color: rgba(41, 41, 41, 0.603); }
+
+.input pre { background-color: #ffffff; color: rgba(41, 41, 41, 0.603); }
 
 body { counter-reset: number 0; background: linear-gradient(to bottom, #eef8ff 0%, #f2f2fd 100%); padding: 0 20px !important; }
 
