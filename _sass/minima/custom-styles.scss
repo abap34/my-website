@@ -17,8 +17,10 @@
   }
 
 
+
 body {
-  background: #edf2f7 !important;
+  counter-reset: number 0;
+  background: linear-gradient(to bottom, #eef8ff 0%, #f2f2fd 100%);
   padding: 0 20px !important;
 }
 
@@ -86,16 +88,3 @@ body {
   display: none;
 }
 
-h2 {
-  border-bottom: solid 3px skyblue;
-  position: relative;
-}
-
-h2:after {
-  position: absolute;
-  content: " ";
-  display: block;
-  border-bottom: solid 3px #ffc778;
-  bottom: -3px;
-  width: 30%;
-}
