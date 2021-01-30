@@ -371,7 +371,7 @@ details.description:not([open]) summary::after { content: attr(data-close); }
 
 .notebook-badge-image { border: 0 !important; }
 
-.footnotes { font-size: 12px !important; }
+.footnotes { font-size: 10px !important; }
 
 .footnotes p, .footnotes li { font-size: 12px !important; }
 
@@ -437,6 +437,6 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .input pre { background-color: #ffffff; color: black; }
 
-.site-header { position: fixed; top: 0; }
+.site-header { position: fixed; }
 
 /*# sourceMappingURL=style.css.map */
