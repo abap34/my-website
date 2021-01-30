@@ -14,7 +14,6 @@
 .output pre {
     background-color: #ffffff;
     color: rgba(0, 0, 0, 0.603);
-
   }
 
 
@@ -22,8 +21,8 @@ body {
   background: #edf2f7 !important;
   padding: 0 20px !important;
 }
+
 .site-header {
-  color: rgb(221, 253, 242);
   border: none !important;
   width: 800px;
   position: fixed;
@@ -32,6 +31,7 @@ body {
   margin: 0 auto;
 }
 .wrapper {
+  background-color: #a0eaf7;
   margin: 0 !important;
   padding: 0 !important;
 }
