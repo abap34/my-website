@@ -437,9 +437,9 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 body { background: #edf2f7 !important; padding: 0 20px !important; }
 
-.site-header { color: #ddfdf2; border: none !important; width: 800px; position: fixed; top: 0; max-width: 100%; margin: 0 auto; }
+.site-header { border: none !important; width: 800px; position: fixed; top: 0; max-width: 100%; margin: 0 auto; }
 
-.wrapper { margin: 0 !important; padding: 0 !important; }
+.wrapper { background-color: #a0eaf7; margin: 0 !important; padding: 0 !important; }
 
 .site-title:hover { text-decoration: none; color: rgba(0, 0, 0, 0.5); }
 
