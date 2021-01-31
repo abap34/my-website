@@ -462,4 +462,6 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 
 #posts { display: none; }
 
+.highlighter-rouge .highlight { background: #f6f6f6; }
+
 /*# sourceMappingURL=style.css.map */
