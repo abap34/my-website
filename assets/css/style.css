@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .highlight .c { color: #998; font-style: italic; }
 
 .highlight .err { color: #a61717; background-color: #e3d2d2; }
@@ -449,9 +450,7 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 
 .post-title.p-name { margin: 20px 0 !important; font-size: 35px !important; font-weight: 700 !important; }
 
-h1 { position: relative; display: inline-block; margin-bottom: 1em; }
-
-h1:before { content: ''; position: absolute; bottom: -15px; display: inline-block; width: 250px; height: 5px; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); background-color: black; border-radius: 2px; }
+h1 { /*線の種類（実線） 太さ 色*/ border-bottom: solid 3px #292929; }
 
 .page-content p { font-size: 16px !important; line-height: 1.5; }
 
