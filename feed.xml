@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://abap34.github.io/my-website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://abap34.github.io/my-website/" rel="alternate" type="text/html" /><updated>2021-01-31T07:58:55-06:00</updated><id>https://abap34.github.io/my-website/feed.xml</id><title type="html">ShibaInu-Doc</title><subtitle>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</subtitle><entry><title type="html">Juliaで公式パッケージを作ろう！🐕</title><link href="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html" rel="alternate" type="text/html" title="Juliaで公式パッケージを作ろう！🐕" /><published>2021-01-31T00:00:00-06:00</published><updated>2021-01-31T00:00:00-06:00</updated><id>https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg</id><content type="html" xml:base="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html">&lt;p&gt;この記事では、モジュールやパッケージ関連の操作がわかることを前提として、&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://abap34.github.io/my-website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://abap34.github.io/my-website/" rel="alternate" type="text/html" /><updated>2021-01-31T08:11:31-06:00</updated><id>https://abap34.github.io/my-website/feed.xml</id><title type="html">ShibaInu-Doc</title><subtitle>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</subtitle><entry><title type="html">Juliaで公式パッケージを作ろう！🐕</title><link href="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html" rel="alternate" type="text/html" title="Juliaで公式パッケージを作ろう！🐕" /><published>2021-01-31T00:00:00-06:00</published><updated>2021-01-31T00:00:00-06:00</updated><id>https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg</id><content type="html" xml:base="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html">&lt;p&gt;この記事では、モジュールやパッケージ関連の操作がわかることを前提として、&lt;/p&gt;
 
 &lt;p&gt;公式パッケージ化のために&lt;/p&gt;
 
@@ -13,7 +13,7 @@
 
 &lt;h1 id=&quot;pkgtemplatesjlを用いた雛形づくり&quot;&gt;PkgTemplates.jlを用いた雛形づくり&lt;/h1&gt;
 
-&lt;p&gt;さて、パッケージを作ると言っても具体的にどのように手をつければ良いかわからないと思います。&lt;/p&gt;
+&lt;p&gt;さて、パッケージを作ると言っても具体的にどこから手をつければ良いかわからないと思います。&lt;/p&gt;
 
 &lt;p&gt;そこで役に立つのがPkgTemplates.jlです。&lt;/p&gt;
 
@@ -37,8 +37,6 @@
        &lt;span class=&quot;x&quot;&gt;],&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;さて、このようにしてTemplateの設定を済ませて、&lt;/p&gt;
 
 &lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;n&quot;&gt;julia&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generate&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;PixelArt.jl&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
@@ -75,9 +73,13 @@ shell&amp;gt; tree
     └── runtests.jl
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;今回は前回作った &lt;a href=&quot;https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html&quot;&gt;画像をdot絵にするやつ&lt;/a&gt;　をパッケージにしていきます。&lt;/p&gt;
+&lt;p&gt;こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。&lt;/p&gt;
 
-&lt;p&gt;これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。&lt;/p&gt;
+&lt;p&gt;今回は例として、前回作った &lt;a href=&quot;https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html&quot;&gt;画像をdot絵にするやつ&lt;/a&gt;　をパッケージにしていきます。&lt;/p&gt;
+
+&lt;p&gt;まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dev {filepath}&lt;/code&gt; で開発中のローカルのパッケージを認識させることができます。&lt;/p&gt;
 
 &lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pwd&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yuchi_ymgc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Desktop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PixelArt&lt;/span&gt;
@@ -107,6 +109,7 @@ shell&amp;gt; tree
 &lt;p&gt;さて、パッケージの設計技法などに深く言及するのではなく、一般的なパッケージ開発のやり方について少しだけ言及します。&lt;/p&gt;
 
 &lt;h2 id=&quot;ファイル構成&quot;&gt;ファイル構成&lt;/h2&gt;
+
 &lt;p&gt;まず, 
 src/PixelArt.jlは主に、&lt;/p&gt;
 
@@ -490,11 +493,20 @@ end
 
 &lt;p&gt;さて、Project.tomlを更新したら早速登録しましょう。&lt;/p&gt;
 
-&lt;p&gt;公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRをする必要がありますが、&lt;/p&gt;
+&lt;p&gt;公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRを出す必要がありますが、&lt;/p&gt;
 
 &lt;p&gt;自分で書くわけではなく基本的に自動で生成します。&lt;/p&gt;
 
-&lt;p&gt;おそらく最も敷居が低いのはJuliaHubから申請する方法です。&lt;/p&gt;
+&lt;p&gt;このとき、&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;JuliaHubから申請&lt;/li&gt;
+  &lt;li&gt;Registrator.jlを使用&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;という二つの選択肢があります。&lt;/p&gt;
+
+&lt;p&gt;おそらく最も敷居が低いのは前者のJuliaHubから申請する方法です。&lt;/p&gt;
 
 &lt;p&gt;https://juliahub.com　&lt;/p&gt;
 
@@ -507,11 +519,7 @@ end
 etc…&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;を入力しています。&lt;/p&gt;
-
-&lt;p&gt;今回の場合は、以下のようになりました。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/my-website/images/registar.png&quot; alt=&quot;&quot; /&gt;)&lt;/p&gt;
+&lt;p&gt;を入力します。&lt;/p&gt;
 
 &lt;p&gt;そしてSubmitを押すと、自動的にプルリクエストが作られます。&lt;/p&gt;
 
@@ -529,9 +537,9 @@ etc…&lt;/li&gt;
 
 &lt;p&gt;全てのCIを通過して3日たつと自動でマージされます！仮に何かしら引っかかった場合は修正して再度&lt;code class=&quot;highlighter-rouge&quot;&gt;@JuliaRegistrator register&lt;/code&gt; をしましょう。&lt;/p&gt;
 
-&lt;p&gt;通過しなかったPRを自動で修正してくれます。(つまりPRを取り下げる必要はありません)&lt;/p&gt;
+&lt;p&gt;通過しなかったPRを自動で修正してくれます。便利。(つまりPRを取り下げる必要はありません)&lt;/p&gt;
 
-&lt;p&gt;#　kekka&lt;/p&gt;
+&lt;h1 id=&quot;kekka&quot;&gt;kekka&lt;/h1&gt;
 
 &lt;p&gt;{マージされたら書きます！}&lt;/p&gt;</content><author><name></name></author><summary type="html">この記事では、モジュールやパッケージ関連の操作がわかることを前提として、</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://abap34.github.io/my-website/images/pr.png" /><media:content medium="image" url="https://abap34.github.io/my-website/images/pr.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">DeepShibaの開発再開にあたって現状を確認しようと思う</title><link href="https://abap34.github.io/my-website/ml/2021/01/30/DeepShiba_20201219.html" rel="alternate" type="text/html" title="DeepShibaの開発再開にあたって現状を確認しようと思う" /><published>2021-01-30T00:00:00-06:00</published><updated>2021-01-30T00:00:00-06:00</updated><id>https://abap34.github.io/my-website/ml/2021/01/30/DeepShiba_20201219</id><content type="html" xml:base="https://abap34.github.io/my-website/ml/2021/01/30/DeepShiba_20201219.html">&lt;!--
 #################################################

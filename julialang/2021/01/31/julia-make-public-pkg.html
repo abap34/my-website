@@ -154,6 +154,7 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h1"><a href="#登録">登録</a></li>
+<li class="toc-entry toc-h1"><a href="#kekka">kekka</a></li>
 </ul><p>この記事では、モジュールやパッケージ関連の操作がわかることを前提として、</p>
 
 <p>公式パッケージ化のために</p>
@@ -170,7 +171,7 @@ window.onload = wrap_img;
 <h1 id="pkgtemplatesjlを用いた雛形づくり">
 <a class="anchor" href="#pkgtemplatesjl%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E9%9B%9B%E5%BD%A2%E3%81%A5%E3%81%8F%E3%82%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>PkgTemplates.jlを用いた雛形づくり</h1>
 
-<p>さて、パッケージを作ると言っても具体的にどのように手をつければ良いかわからないと思います。</p>
+<p>さて、パッケージを作ると言っても具体的にどこから手をつければ良いかわからないと思います。</p>
 
 <p>そこで役に立つのがPkgTemplates.jlです。</p>
 
@@ -194,8 +195,6 @@ window.onload = wrap_img;
        <span class="x">],</span>
 
 </code></pre></div></div>
-
-<p>さて、このようにしてTemplateの設定を済ませて、</p>
 
 <div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">julia</span><span class="o">&gt;</span> <span class="n">generate</span><span class="x">(</span><span class="s">"PixelArt.jl"</span><span class="x">,</span> <span class="n">t</span><span class="x">)</span>
@@ -232,9 +231,13 @@ shell&gt; tree
     └── runtests.jl
 </code></pre></div></div>
 
-<p>今回は前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
+<p>こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。</p>
 
-<p>これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。</p>
+<p>今回は例として、前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
+
+<p>まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。</p>
+
+<p><code class="highlighter-rouge">dev {filepath}</code> で開発中のローカルのパッケージを認識させることができます。</p>
 
 <div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">shell</span><span class="o">&gt;</span> <span class="n">pwd</span>
 <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span>
@@ -266,6 +269,7 @@ shell&gt; tree
 
 <h2 id="ファイル構成">
 <a class="anchor" href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>ファイル構成</h2>
+
 <p>まず, 
 src/PixelArt.jlは主に、</p>
 
@@ -655,11 +659,20 @@ end
 
 <p>さて、Project.tomlを更新したら早速登録しましょう。</p>
 
-<p>公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRをする必要がありますが、</p>
+<p>公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRを出す必要がありますが、</p>
 
 <p>自分で書くわけではなく基本的に自動で生成します。</p>
 
-<p>おそらく最も敷居が低いのはJuliaHubから申請する方法です。</p>
+<p>このとき、</p>
+
+<ul>
+  <li>JuliaHubから申請</li>
+  <li>Registrator.jlを使用</li>
+</ul>
+
+<p>という二つの選択肢があります。</p>
+
+<p>おそらく最も敷居が低いのは前者のJuliaHubから申請する方法です。</p>
 
 <p>https://juliahub.com　</p>
 
@@ -672,11 +685,7 @@ end
 etc…</li>
 </ul>
 
-<p>を入力しています。</p>
-
-<p>今回の場合は、以下のようになりました。</p>
-
-<p><img src="/my-website/images/registar.png" alt="">)</p>
+<p>を入力します。</p>
 
 <p>そしてSubmitを押すと、自動的にプルリクエストが作られます。</p>
 
@@ -694,9 +703,10 @@ etc…</li>
 
 <p>全てのCIを通過して3日たつと自動でマージされます！仮に何かしら引っかかった場合は修正して再度<code class="highlighter-rouge">@JuliaRegistrator register</code> をしましょう。</p>
 
-<p>通過しなかったPRを自動で修正してくれます。(つまりPRを取り下げる必要はありません)</p>
+<p>通過しなかったPRを自動で修正してくれます。便利。(つまりPRを取り下げる必要はありません)</p>
 
-<p>#　kekka</p>
+<h1 id="kekka">
+<a class="anchor" href="#kekka" aria-hidden="true"><span class="octicon octicon-link"></span></a>kekka</h1>
 
 <p>{マージされたら書きます！}</p>
 
