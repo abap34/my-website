@@ -465,6 +465,6 @@ h1:before { content: ''; position: absolute; bottom: -15px; display: inline-bloc
 
 .highlighter-rouge .highlight { background: #f6f6f6; }
 
-pre, code { background-color: #f6f6f6; }
+tt, code { background-color: #f6f6f6; }
 
 /*# sourceMappingURL=style.css.map */
