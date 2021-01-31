@@ -24,6 +24,7 @@
 
 
 
+
 body {
   counter-reset: number 0;
   background: #ffffff;
@@ -43,6 +44,7 @@ body {
   margin: 0 !important;
   padding: 0 !important;
 }
+
 .site-title:hover {
   text-decoration: none;
   color: rgba(0, 0, 0, 0.5);
@@ -62,11 +64,11 @@ body {
   font-size: 28px !important;
   font-weight: 700 !important;
 }
-.page-content h2 {
-  background: #eeeeee;
-  padding: 8px 16px;
-  border-left: 6px solid rgb(54, 91, 255);
-}
+// .page-content h2 {
+//   background: #eeeeee;
+//   padding: 8px 16px;
+//   border-left: 6px solid rgb(54, 91, 255);
+// }
 .page-content p {
   font-size: 16px !important;
   line-height: 1.5;
