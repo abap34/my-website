@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Juliaで公式パッケージを作ろう！🐕 | ShibaInu-Doc</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Juliaで公式パッケージを作ろう！🐕" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Juliaで開発, ドキュメント生成、登録まで。" />
+<meta property="og:description" content="Juliaで開発, ドキュメント生成、登録まで。" />
+<link rel="canonical" href="https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html" />
+<meta property="og:url" content="https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html" />
+<meta property="og:site_name" content="ShibaInu-Doc" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-31T00:00:00-06:00" />
+<script type="application/ld+json">
+{"headline":"Juliaで公式パッケージを作ろう！🐕","dateModified":"2020-01-31T00:00:00-06:00","datePublished":"2020-01-31T00:00:00-06:00","description":"Juliaで開発, ドキュメント生成、登録まで。","mainEntityOfPage":{"@type":"WebPage","@id":"https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html"},"@type":"BlogPosting","url":"https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/my-website/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://abap34.github.io/my-website/feed.xml" title="ShibaInu-Doc" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-174991393-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/my-website/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Juliaで公式パッケージを作ろう！🐕 | ShibaInu-Doc</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Juliaで公式パッケージを作ろう！🐕" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Juliaで開発, ドキュメント生成、登録まで。" />
+<meta property="og:description" content="Juliaで開発, ドキュメント生成、登録まで。" />
+<link rel="canonical" href="https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html" />
+<meta property="og:url" content="https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html" />
+<meta property="og:site_name" content="ShibaInu-Doc" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-31T00:00:00-06:00" />
+<script type="application/ld+json">
+{"headline":"Juliaで公式パッケージを作ろう！🐕","dateModified":"2020-01-31T00:00:00-06:00","datePublished":"2020-01-31T00:00:00-06:00","description":"Juliaで開発, ドキュメント生成、登録まで。","mainEntityOfPage":{"@type":"WebPage","@id":"https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html"},"@type":"BlogPosting","url":"https://abap34.github.io/my-website/julialang/2020/01/31/julia-make-public-pkg.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://abap34.github.io/my-website/feed.xml" title="ShibaInu-Doc" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-174991393-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/my-website/">ShibaInu-Doc</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/my-website/about/">About Me</a><a class="page-link" href="/my-website/search/">Search</a><a class="page-link" href="/my-website/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Juliaで公式パッケージを作ろう！🐕</h1><p class="page-description">Juliaで開発, ドキュメント生成、登録まで。</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-01-31T00:00:00-06:00" itemprop="datePublished">
+        Jan 31, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/my-website/categories/#JuliaLang">JuliaLang</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#pkgtemplatesjlを用いた雛形づくり">PkgTemplates.jlを用いた雛形づくり</a></li>
+<li class="toc-entry toc-h1"><a href="#パッケージ開発の基本中の基本">パッケージ開発の基本中の基本</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#ファイル構成">ファイル構成</a></li>
+<li class="toc-entry toc-h2"><a href="#revisejl">Revise.jl</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#docstringとdocumentarjlを使ったドキュメント作り">DocStringとDocumentar.jlを使ったドキュメント作り</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#docstring">docstring</a></li>
+<li class="toc-entry toc-h2"><a href="#documenterjl">Documenter.jl</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#登録">登録</a></li>
+</ul><p>この記事では、モジュールやパッケージ関連の操作がわかることを前提として、</p>
+
+<p>公式パッケージ化のために</p>
+
+<ul>
+  <li>PkgTemplates.jlを用いて雛形作り</li>
+  <li>パッケージ開発の基本中の基本とTravis CIによる自動テスト</li>
+  <li>DocStringとDocumentar.jlを使ったドキュメント作り</li>
+  <li>登録</li>
+</ul>
+
+<p>の4つを順に解説してパッケージを作っていきます。</p>
+
+<h1 id="pkgtemplatesjlを用いた雛形づくり">
+<a class="anchor" href="#pkgtemplatesjl%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E9%9B%9B%E5%BD%A2%E3%81%A5%E3%81%8F%E3%82%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>PkgTemplates.jlを用いた雛形づくり</h1>
+
+<p>さて、パッケージを作ると言っても具体的にどのように手をつければ良いかわからないと思います。</p>
+
+<p>そこで役に立つのがPkgTemplates.jlです。</p>
+
+<p>このパッケージはJuliaでPackageを作るための雛形を自動で生成してくれます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="x">(</span><span class="nd">@v1.5</span><span class="x">)</span> <span class="n">pkg</span><span class="o">&gt;</span> <span class="n">add</span> <span class="n">PkgTemplates</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="k">using</span> <span class="n">PkgTemplates</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="x">(;</span>
+         <span class="n">user</span><span class="o">=</span><span class="s">"abap34"</span><span class="x">,</span>  <span class="c"># GitHubのuser名</span>
+         <span class="n">license</span><span class="o">=</span><span class="s">"MIT"</span><span class="x">,</span>  
+         <span class="n">authors</span><span class="o">=</span><span class="x">[</span><span class="s">"Yuchi Yamaguhci"</span><span class="x">],</span> 
+         <span class="n">dir</span><span class="o">=</span><span class="s">"."</span><span class="x">,</span>      <span class="c"># 生成するディレクトリ</span>
+         <span class="n">julia_version</span><span class="o">=</span><span class="n">v</span><span class="s">"1.5"</span><span class="x">,</span>
+         <span class="n">plugins</span><span class="o">=</span><span class="x">[</span>     <span class="c"># 使うplugin. 公式登録にはtravisとdocumentが必須らしいです</span>
+         <span class="n">TravisCI</span><span class="x">(),</span>
+         <span class="n">Documenter</span><span class="x">(),</span>
+         <span class="n">GitHubPages</span><span class="x">()</span>
+       <span class="x">],</span>
+
+</code></pre></div></div>
+
+<p>さて、このようにしてTemplateの設定を済ませて、</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">generate</span><span class="x">(</span><span class="s">"PixelArt.jl"</span><span class="x">,</span> <span class="n">t</span><span class="x">)</span>
+<span class="x">[</span> <span class="n">Info</span><span class="o">:</span> <span class="n">Running</span> <span class="n">prehooks</span>
+<span class="x">[</span> <span class="n">Info</span><span class="o">:</span> <span class="n">Running</span> <span class="n">hooks</span>
+ <span class="n">Activating</span> <span class="n">environment</span> <span class="n">at</span> <span class="sb">`~/Desktop/PixelArt/Project.toml`</span>
+<span class="o">&lt;</span><span class="n">中略</span><span class="o">&gt;</span>
+<span class="x">[</span> <span class="n">Info</span><span class="o">:</span> <span class="n">Running</span> <span class="n">posthooks</span>
+<span class="x">[</span> <span class="n">Info</span><span class="o">:</span> <span class="n">New</span> <span class="n">package</span> <span class="n">is</span> <span class="n">at</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span>
+</code></pre></div></div>
+
+<p>とすることで、雛形を生成することができます。</p>
+
+<p>確認してみます。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shell&gt; cd PixelArt/
+/Users/yuchi_ymgc/Desktop/PixelArt
+
+shell&gt; tree
+.
+├── LICENSE
+├── Manifest.toml
+├── Project.toml
+├── README.md
+├── docs
+│   ├── Manifest.toml
+│   ├── Project.toml
+│   ├── make.jl
+│   └── src
+│       └── index.md
+├── src
+│   └── PixelArt.jl
+└── test
+    └── runtests.jl
+</code></pre></div></div>
+
+<p>今回は前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
+
+<p>これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">shell</span><span class="o">&gt;</span> <span class="n">pwd</span>
+<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span>
+
+<span class="x">(</span><span class="nd">@v1.5</span><span class="x">)</span> <span class="n">pkg</span><span class="o">&gt;</span> <span class="n">dev</span> <span class="o">.</span>
+<span class="x">[</span> <span class="n">Info</span><span class="o">:</span> <span class="n">Resolving</span> <span class="n">package</span> <span class="n">identifier</span> <span class="sb">`.`</span> <span class="n">as</span> <span class="n">a</span> <span class="n">directory</span> <span class="n">at</span> <span class="sb">`~/Desktop/PixelArt`</span><span class="o">.</span>
+<span class="n">Path</span> <span class="sb">`.`</span> <span class="n">exists</span> <span class="n">and</span> <span class="n">looks</span> <span class="n">like</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">package</span><span class="o">.</span> <span class="n">Using</span> <span class="n">existing</span> <span class="n">path</span><span class="o">.</span>
+  <span class="n">Resolving</span> <span class="n">package</span> <span class="n">versions</span><span class="o">...</span>
+<span class="n">Updating</span> <span class="sb">`~/.julia/environments/v1.5/Project.toml`</span>
+  <span class="x">[</span><span class="mi">0</span><span class="n">ba03b52</span><span class="x">]</span> <span class="o">+</span> <span class="n">PixelArt</span> <span class="n">v0</span><span class="o">.</span><span class="mf">1.0</span> <span class="sb">`../../../Desktop/PixelArt`</span>
+<span class="n">Updating</span> <span class="sb">`~/.julia/environments/v1.5/Manifest.toml`</span>
+  <span class="x">[</span><span class="mi">0</span><span class="n">ba03b52</span><span class="x">]</span> <span class="o">+</span> <span class="n">PixelArt</span> <span class="n">v0</span><span class="o">.</span><span class="mf">1.0</span> <span class="sb">`../../../Desktop/PixelArt`</span>
+</code></pre></div></div>
+
+<p>また、PixelArt.jlはImages.jlに依存しているので追加しておきます。</p>
+
+<p>このようにactivateした環境でパッケージを追加することで、自動的にProject.tomlが更新されます。(そのほかにも適宜必要なパッケージを追加しておきます。)</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="x">(</span><span class="nd">@v1.5</span><span class="x">)</span> <span class="n">pkg</span><span class="o">&gt;</span> <span class="n">activate</span> <span class="o">.</span>
+ <span class="n">Activating</span> <span class="n">environment</span> <span class="n">at</span> <span class="sb">`~/Desktop/PixelArt/Project.toml`</span>
+
+<span class="x">(</span><span class="n">PixelArt</span><span class="x">)</span> <span class="n">pkg</span><span class="o">&gt;</span> <span class="n">add</span> <span class="n">Images</span>
+</code></pre></div></div>
+
+<h1 id="パッケージ開発の基本中の基本">
+<a class="anchor" href="#%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E9%96%8B%E7%99%BA%E3%81%AE%E5%9F%BA%E6%9C%AC%E4%B8%AD%E3%81%AE%E5%9F%BA%E6%9C%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>パッケージ開発の基本中の基本</h1>
+
+<p>さて、パッケージの設計技法などに深く言及するのではなく、一般的なパッケージ開発のやり方について少しだけ言及します。</p>
+
+<h2 id="ファイル構成">
+<a class="anchor" href="#%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E6%A7%8B%E6%88%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>ファイル構成</h2>
+<p>まず, 
+src/PixelArt.jlは主に、</p>
+
+<ul>
+  <li>他のfileをincludeなどで取り込んで、exportする</li>
+</ul>
+
+<p>という用途で使われ、基本的にその関数は
+src/ 以下のファイル群に書かれていることが多いと思います。</p>
+
+<p>なので具体的には以下のようになっており、本質的なコード量は少なめという印象があります。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># src/PixelArt.jl</span>
+
+<span class="k">module</span> <span class="n">PixelArt</span>
+
+<span class="n">include</span><span class="x">(</span><span class="s">"functions.jl"</span><span class="x">)</span>
+
+<span class="k">export</span> <span class="n">pixel</span>
+
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># src/functions.jl</span>
+
+<span class="k">function</span><span class="nf"> img_to_arr</span><span class="x">(</span><span class="n">img</span><span class="x">)</span>
+    <span class="k">return</span> <span class="n">convert</span><span class="x">(</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Float64</span><span class="x">},</span> <span class="n">channelview</span><span class="x">(</span><span class="n">img</span><span class="x">))</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="nf"> pixel</span><span class="x">(</span><span class="n">img</span><span class="x">;</span> <span class="n">n_color</span><span class="o">=</span><span class="mi">5</span><span class="x">,</span> <span class="n">w</span><span class="o">=</span><span class="mi">64</span><span class="x">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">64</span><span class="x">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">imresize</span><span class="x">(</span><span class="n">img</span><span class="x">,</span> <span class="x">(</span><span class="n">w</span><span class="x">,</span> <span class="n">h</span><span class="x">))</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">reshape</span><span class="x">(</span><span class="n">img_to_arr</span><span class="x">(</span><span class="n">img</span><span class="x">),</span> <span class="x">(</span><span class="mi">3</span><span class="x">,</span> <span class="o">:</span><span class="x">))</span>
+    <span class="n">color_class</span> <span class="o">=</span> <span class="n">kmeans</span><span class="x">(</span><span class="n">img</span><span class="x">,</span> <span class="n">n_color</span><span class="x">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">hcat</span><span class="x">((</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">color_class</span><span class="o">.</span><span class="n">centers</span><span class="x">[</span><span class="o">:</span><span class="x">,</span> <span class="n">x</span><span class="x">])</span><span class="o">.</span><span class="x">(</span><span class="n">color_class</span><span class="o">.</span><span class="n">assignments</span><span class="x">)</span><span class="o">...</span><span class="x">)</span>
+    <span class="k">return</span> <span class="n">convert</span><span class="x">(</span><span class="kt">Array</span><span class="x">{</span><span class="n">RGB</span><span class="x">{</span><span class="kt">Float64</span><span class="x">}},</span> <span class="n">colorview</span><span class="x">(</span><span class="n">RGB</span><span class="x">,</span> <span class="n">reshape</span><span class="x">(</span><span class="n">img</span><span class="x">,</span> <span class="x">(</span><span class="mi">3</span><span class="x">,</span> <span class="n">w</span><span class="x">,</span> <span class="n">h</span><span class="x">))))</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>このくらいの規模感では恩恵はほとんどないですが、ある程度以上の規模のパッケージではこのような構成を取らないと大変なことになります….</p>
+
+<p>次に、test/runtest.jlです。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">PixelArt</span>
+<span class="k">using</span> <span class="n">Test</span>
+
+<span class="nd">@testset</span> <span class="s">"PixelArt.jl"</span> <span class="k">begin</span>
+    <span class="c"># Write your tests here.</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>デフォルトでは次のような形になっていて、それぞれの@testsetでテストを書くことができます。</p>
+
+<p>そしてtravis ciなどを用いてテストおこないます。</p>
+
+<p>もちろんローカルでも実行できるので、試してみます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#test/runtests.jl</span>
+<span class="k">using</span> <span class="n">PixelArt</span>
+<span class="k">using</span> <span class="n">Test</span>
+
+<span class="nd">@testset</span> <span class="s">"Sugoi-Test"</span> <span class="k">begin</span>
+    <span class="nd">@test</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="nd">@test</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">4</span>
+<span class="k">end</span>
+
+
+<span class="nd">@testset</span> <span class="s">"Nice-Test"</span> <span class="k">begin</span>
+    <span class="nd">@test</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="s">"田んぼの田"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">include</span><span class="x">(</span><span class="s">"test/runtests.jl"</span><span class="x">)</span>
+<span class="n">Test</span> <span class="n">Summary</span><span class="o">:</span> <span class="o">|</span> <span class="n">Pass</span>  <span class="n">Total</span>
+<span class="n">Sugoi</span><span class="o">-</span><span class="n">Test</span>    <span class="o">|</span>    <span class="mi">2</span>      <span class="mi">2</span>
+<span class="n">Nice</span><span class="o">-</span><span class="n">Test</span><span class="o">:</span> <span class="n">Test</span> <span class="n">Failed</span> <span class="n">at</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">runtests</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">11</span>
+  <span class="n">Expression</span><span class="o">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="s">"田んぼの田"</span>
+   <span class="n">Evaluated</span><span class="o">:</span> <span class="mi">2</span> <span class="o">==</span> <span class="s">"田んぼの田"</span>
+<span class="n">Stacktrace</span><span class="o">:</span>
+ <span class="x">[</span><span class="mi">1</span><span class="x">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span> <span class="n">at</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">runtests</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">11</span>
+ <span class="x">[</span><span class="mi">2</span><span class="x">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span> <span class="n">at</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">julia</span><span class="o">/</span><span class="n">buildbot</span><span class="o">/</span><span class="n">worker</span><span class="o">/</span><span class="n">package_macos64</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">julia</span><span class="o">/</span><span class="n">stdlib</span><span class="o">/</span><span class="n">v1</span><span class="o">.</span><span class="mi">5</span><span class="o">/</span><span class="n">Test</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">Test</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">1115</span>
+ <span class="x">[</span><span class="mi">3</span><span class="x">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span> <span class="n">at</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">runtests</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">11</span>
+<span class="n">Test</span> <span class="n">Summary</span><span class="o">:</span> <span class="o">|</span> <span class="n">Fail</span>  <span class="n">Total</span>
+<span class="n">Nice</span><span class="o">-</span><span class="n">Test</span>     <span class="o">|</span>    <span class="mi">1</span>      <span class="mi">1</span>
+<span class="n">ERROR</span><span class="o">:</span> <span class="kt">LoadError</span><span class="o">:</span> <span class="kt">Some</span> <span class="n">tests</span> <span class="n">did</span> <span class="n">not</span> <span class="n">pass</span><span class="o">:</span> <span class="mi">0</span> <span class="n">passed</span><span class="x">,</span> <span class="mi">1</span> <span class="n">failed</span><span class="x">,</span> <span class="mi">0</span> <span class="n">errored</span><span class="x">,</span> <span class="mi">0</span> <span class="n">broken</span><span class="o">.</span>
+<span class="k">in</span> <span class="n">expression</span> <span class="n">starting</span> <span class="n">at</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">yuchi_ymgc</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">PixelArt</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">runtests</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">10</span>
+</code></pre></div></div>
+
+<p>1 + 1は、田んぼの田ではないようです。(かなしい)</p>
+
+<p>このように、@testsetを一つの単位としてテストを実行することができます。</p>
+
+<p>また、PkgTemplates.jlでgenerateするときにTravis CIをpluginとして導入していたので、自動で.travis.ymlが生成されて、travisを有効化することで、test/runtests.jl は自動で実行されます。</p>
+
+<p>一応今回は</p>
+<ul>
+  <li>pixel()がちゃんと配列を返すのか</li>
+  <li>nothingが来た場合ちゃんとエラーを吐くか</li>
+</ul>
+
+<p>をチェックしておきます。(本当はもっとちゃんと書こうね！)</p>
+
+<p>(追記: <code class="highlighter-rouge">@test_throwns HogeError f(x)</code>　は、f(x)がHogeErrorを投げるかどうかをテストします。)</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># test/runtests.jl</span>
+<span class="k">using</span> <span class="n">PixelArt</span>
+<span class="k">using</span> <span class="n">Test</span>
+<span class="k">using</span> <span class="n">TestImages</span>
+
+<span class="nd">@testset</span> <span class="s">"PixelArt.jl"</span> <span class="k">begin</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">testimage</span><span class="x">(</span><span class="s">"l"</span><span class="x">)</span>
+    <span class="nd">@test</span> <span class="n">typeof</span><span class="x">(</span><span class="n">pixel</span><span class="x">(</span><span class="n">img</span><span class="x">))</span> <span class="o">&lt;:</span> <span class="kt">AbstractArray</span> 
+    <span class="c"># A wrong path often causes passing nothing.</span>
+    <span class="nd">@test_throws</span> <span class="kt">MethodError</span> <span class="n">pixel</span><span class="x">(</span><span class="nb">nothing</span><span class="x">)</span> 
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h2 id="revisejl">
+<a class="anchor" href="#revisejl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Revise.jl</h2>
+
+<p>さて、ここまでファイル構成に関して解説していましたが、ここでJuliaのパッケージ開発において、もはや必須と言ってもいいパッケージ、Revise.jlを紹介します。</p>
+
+<p>Revise.jlは、 REPLで<code class="highlighter-rouge">using Revise</code>した状態でパッケージを読み込むと自動で更新を検知してくれるパッケージです。</p>
+
+<p>パッと言われても「..?」という感じだと思うので、</p>
+
+<p>実際に確認してみましょう。</p>
+
+<p>PixelArt.jlに次のような関数, <code class="highlighter-rouge">hello</code> を追加してexportしておきます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span><span class="nf"> hello</span><span class="x">()</span>
+    <span class="n">println</span><span class="x">(</span><span class="s">"Hello!"</span><span class="x">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>この状態で、REPLを起動し、ReviseとPixelArt.jlを読み込みます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="k">using</span> <span class="n">Revise</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="k">using</span> <span class="n">PixelArt</span>
+</code></pre></div></div>
+
+<p>先ほど追加したhello()を使ってみます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">hello</span><span class="x">()</span>
+<span class="n">Hello!</span>
+</code></pre></div></div>
+
+<p>ここで、このhello()を更新してみます。</p>
+
+<p>通常ならばこの変更はusingされた後ですから反映されません。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span><span class="nf"> hello</span><span class="x">()</span>
+    <span class="n">println</span><span class="x">(</span><span class="s">"Hi!"</span><span class="x">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>しかし、Revise.jlを用いることで、</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">hello</span><span class="x">()</span>
+<span class="n">Hi!</span>
+</code></pre></div></div>
+
+<p>なんと、REPL上で何も操作をせずに更新された関数を使うことができました。</p>
+
+<p>このようにして逐次的に結果を確認しながら開発をすることができます。</p>
+
+<p>いちいちREPLを再起動したり <code class="highlighter-rouge">julia hoge.jl</code> するのは非効率なので、Revise.jlの強力さがわかると思います。</p>
+
+<h1 id="docstringとdocumentarjlを使ったドキュメント作り">
+<a class="anchor" href="#docstring%E3%81%A8documentarjl%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E4%BD%9C%E3%82%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>DocStringとDocumentar.jlを使ったドキュメント作り</h1>
+
+<h2 id="docstring">
+<a class="anchor" href="#docstring" aria-hidden="true"><span class="octicon octicon-link"></span></a>docstring</h2>
+<p>さて、パッケージの中身ができても他の人に使ってもらうには, ドキュメントを作る必要があります。</p>
+
+<p>が、一般に、これはとてもめんどくさいです。</p>
+
+<p>しかし、Juliaでは面倒なドキュメントの構築をとても簡単に行える方法が用意されています。</p>
+
+<p>まず最初は、<code class="highlighter-rouge">docstring</code>と呼ばれる機能です。</p>
+
+<p>これは、関数や構造体などにmarkdown形式で書かれたコメントをつけることで、ドキュメントをつけることができ、ユーザーはREPLなどの対話的環境で、</p>
+
+<p><code class="highlighter-rouge">?foo</code> などとすることで閲覧できます。</p>
+
+<p>(例:?sort　の結果)</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">help</span><span class="o">?&gt;</span> <span class="n">sort</span>
+<span class="n">search</span><span class="o">:</span> <span class="n">sort</span> <span class="n">sort!</span> <span class="n">sortperm</span> <span class="n">sortperm!</span> <span class="n">sortslices</span> <span class="kt">Cshort</span> <span class="n">issorted</span> <span class="n">QuickSort</span> <span class="n">MergeSort</span> <span class="kt">Cushort</span> <span class="n">partialsort</span> <span class="n">partialsort!</span>
+
+  <span class="n">sort</span><span class="x">(</span><span class="n">v</span><span class="x">;</span> <span class="n">alg</span><span class="o">::</span><span class="n">Algorithm</span><span class="o">=</span><span class="n">defalg</span><span class="x">(</span><span class="n">v</span><span class="x">),</span> <span class="n">lt</span><span class="o">=</span><span class="n">isless</span><span class="x">,</span> <span class="n">by</span><span class="o">=</span><span class="n">identity</span><span class="x">,</span> <span class="n">rev</span><span class="o">::</span><span class="kt">Bool</span><span class="o">=</span><span class="nb">false</span><span class="x">,</span> <span class="n">order</span><span class="o">::</span><span class="n">Ordering</span><span class="o">=</span><span class="n">Forward</span><span class="x">)</span>
+
+  <span class="n">Variant</span> <span class="n">of</span> <span class="n">sort!</span> <span class="n">that</span> <span class="n">returns</span> <span class="n">a</span> <span class="n">sorted</span> <span class="n">copy</span> <span class="n">of</span> <span class="n">v</span> <span class="n">leaving</span> <span class="n">v</span> <span class="n">itself</span> <span class="n">unmodified</span><span class="o">.</span>
+
+  <span class="n">Examples</span>
+  <span class="n">≡≡≡≡≡≡≡≡≡≡</span>
+
+  <span class="n">julia</span><span class="o">&gt;</span> <span class="n">v</span> <span class="o">=</span> <span class="x">[</span><span class="mi">3</span><span class="x">,</span> <span class="mi">1</span><span class="x">,</span> <span class="mi">2</span><span class="x">];</span>
+  
+  <span class="n">julia</span><span class="o">&gt;</span> <span class="n">sort</span><span class="x">(</span><span class="n">v</span><span class="x">)</span>
+  <span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
+   <span class="mi">1</span>
+   <span class="mi">2</span>
+   <span class="mi">3</span>
+  
+  <span class="n">julia</span><span class="o">&gt;</span> <span class="n">v</span>
+  <span class="mi">3</span><span class="o">-</span><span class="n">element</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="mi">1</span><span class="x">}</span><span class="o">:</span>
+   <span class="mi">3</span>
+   <span class="mi">1</span>
+   <span class="mi">2</span>
+
+  <span class="n">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+
+  <span class="n">sort</span><span class="x">(</span><span class="n">A</span><span class="x">;</span> <span class="n">dims</span><span class="o">::</span><span class="kt">Integer</span><span class="x">,</span> <span class="n">alg</span><span class="o">::</span><span class="n">Algorithm</span><span class="o">=</span><span class="n">DEFAULT_UNSTABLE</span><span class="x">,</span> <span class="n">lt</span><span class="o">=</span><span class="n">isless</span><span class="x">,</span> <span class="n">by</span><span class="o">=</span><span class="n">identity</span><span class="x">,</span> <span class="n">rev</span><span class="o">::</span><span class="kt">Bool</span><span class="o">=</span><span class="nb">false</span><span class="x">,</span> <span class="n">order</span><span class="o">::</span><span class="n">Ordering</span><span class="o">=</span><span class="n">Forward</span><span class="x">)</span>
+
+  <span class="n">Sort</span> <span class="n">a</span> <span class="n">multidimensional</span> <span class="n">array</span> <span class="n">A</span> <span class="n">along</span> <span class="n">the</span> <span class="n">given</span> <span class="n">dimension</span><span class="o">.</span> <span class="n">See</span> <span class="n">sort!</span> <span class="k">for</span> <span class="n">a</span> <span class="n">description</span> <span class="n">of</span> <span class="n">possible</span> <span class="n">keyword</span> <span class="n">arguments</span><span class="o">.</span>
+
+  <span class="n">To</span> <span class="n">sort</span> <span class="n">slices</span> <span class="n">of</span> <span class="n">an</span> <span class="n">array</span><span class="x">,</span> <span class="n">refer</span> <span class="n">to</span> <span class="n">sortslices</span><span class="o">.</span>
+
+  <span class="n">Examples</span>
+  <span class="n">≡≡≡≡≡≡≡≡≡≡</span>
+
+  <span class="n">julia</span><span class="o">&gt;</span> <span class="n">A</span> <span class="o">=</span> <span class="x">[</span><span class="mi">4</span> <span class="mi">3</span><span class="x">;</span> <span class="mi">1</span> <span class="mi">2</span><span class="x">]</span>
+  <span class="mi">2</span><span class="n">×2</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="mi">2</span><span class="x">}</span><span class="o">:</span>
+   <span class="mi">4</span>  <span class="mi">3</span>
+   <span class="mi">1</span>  <span class="mi">2</span>
+  
+  <span class="n">julia</span><span class="o">&gt;</span> <span class="n">sort</span><span class="x">(</span><span class="n">A</span><span class="x">,</span> <span class="n">dims</span> <span class="o">=</span> <span class="mi">1</span><span class="x">)</span>
+  <span class="mi">2</span><span class="n">×2</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="mi">2</span><span class="x">}</span><span class="o">:</span>
+   <span class="mi">1</span>  <span class="mi">2</span>
+   <span class="mi">4</span>  <span class="mi">3</span>
+  
+  <span class="n">julia</span><span class="o">&gt;</span> <span class="n">sort</span><span class="x">(</span><span class="n">A</span><span class="x">,</span> <span class="n">dims</span> <span class="o">=</span> <span class="mi">2</span><span class="x">)</span>
+  <span class="mi">2</span><span class="n">×2</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">,</span><span class="mi">2</span><span class="x">}</span><span class="o">:</span>
+   <span class="mi">3</span>  <span class="mi">4</span>
+   <span class="mi">1</span>  <span class="mi">2</span>
+</code></pre></div></div>
+
+<p>さて、このdocstringは厳密に定義されているわけではないですが、大体次のようなルールで書かれるようです。</p>
+
+<ul>
+  <li>最初に関数名と引数、帰り値を書く(このとき、省略可能な引数は[]で囲う。)
+    <div class="language-julia highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">f</span><span class="x">(</span><span class="n">hoge</span><span class="x">,</span> <span class="x">[,</span> <span class="n">huga</span><span class="x">,</span> <span class="n">huge</span><span class="x">])</span>
+</code></pre></div>    </div>
+  </li>
+  <li>引数が多いときはその説明を追記する。</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Arguments
+- `hoge`: the hoge param.
+- `huga`: the huga param.
+- `huge`: the huge param.
+</code></pre></div></div>
+
+<ul>
+  <li>実行例を書く。</li>
+</ul>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Examples</span>
+
+<span class="n">​</span><span class="sb">``</span><span class="err">`</span><span class="n">jldoctest</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">f</span><span class="x">(</span><span class="s">"huga"</span><span class="x">)</span>
+<span class="s">"hugahuga"</span>
+<span class="sb">``</span><span class="err">`</span>
+</code></pre></div></div>
+
+<p>ここまでを連結して書くと以下のような感じ。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
+    f(hoge, [, huga, huge])
+
+# Arguments
+- `hoge`: the hoge param.
+- `huga`: the huga param.
+- `huge`: the huge param.
+# Examples
+
+​```jldoctest
+
+julia&gt; f("</span><span class="n">huga</span><span class="s">")
+"</span><span class="n">hugahuga</span><span class="s">"
+```
+function f(hoge; huga=1, huga=2)
+    # なんかの処理
+end
+</span></code></pre></div></div>
+
+<p>ここで実行例の先頭に<code class="highlighter-rouge">jldoctest</code>と書いてありますが、</p>
+
+<p>これを追記することでのちにドキュメントを生成するときに自動でテストを行ってくれます。</p>
+
+<p>ちなみにpixel()には次のようなdocstringをつけてみました。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"""
+    pixel(img, [, n_color, w, h]) -&gt; Array{RGB{Float64}}
+
+# Examples
+
+```jldoctest
+julia&gt; using PixelArt
+
+julia&gt; using Images
+
+julia&gt; img = load("img.jpg");
+
+julia&gt; img_pixel = pixel(img);
+
+julia&gt; save("img_pixel.jpg", img_pixel)
+```
+"""
+function pixel(img::AbstractArray; n_color=5, w=64, h=64) 
+    img = imresize(img, (w, h))
+    img = reshape(img_to_arr(img), (3, :))
+    color_class = kmeans(img, n_color)
+    img = hcat((x -&gt; color_class.centers[:, x]).(color_class.assignments)...)
+    return convert(Array{RGB{Float64}}, colorview(RGB, reshape(img, (3, w, h))))
+end
+
+</code></pre></div></div>
+
+<h2 id="documenterjl">
+<a class="anchor" href="#documenterjl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documenter.jl</h2>
+
+<p>Documenter.jlは、docstringから自動でドキュメントを生成してくれるパッケージです。</p>
+
+<p>PkgTemplates.jlで生成した場合、自動でdocs/make.jlが生成されるので、それを実行しましょう。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># docs/make.jl</span>
+
+<span class="k">using</span> <span class="n">PixelArt</span>
+<span class="k">using</span> <span class="n">Documenter</span>
+
+<span class="n">makedocs</span><span class="x">(;</span>
+    <span class="n">modules</span><span class="o">=</span><span class="x">[</span><span class="n">PixelArt</span><span class="x">],</span>
+    <span class="n">authors</span><span class="o">=</span><span class="s">"Yuchi Yamaguchi"</span><span class="x">,</span>
+    <span class="n">repo</span><span class="o">=</span><span class="s">"https://github.com/abap34/PixelArt.jl/blob/{commit}{path}#L{line}"</span><span class="x">,</span>
+    <span class="n">sitename</span><span class="o">=</span><span class="s">"PixelArt.jl"</span><span class="x">,</span>
+    <span class="n">format</span><span class="o">=</span><span class="n">Documenter</span><span class="o">.</span><span class="kt">HTML</span><span class="x">(;</span>
+        <span class="n">prettyurls</span><span class="o">=</span><span class="n">get</span><span class="x">(</span><span class="nb">ENV</span><span class="x">,</span> <span class="s">"CI"</span><span class="x">,</span> <span class="s">"false"</span><span class="x">)</span> <span class="o">==</span> <span class="s">"true"</span><span class="x">,</span>
+        <span class="n">canonical</span><span class="o">=</span><span class="s">"https://abap34.github.io/PixelArt.jl"</span><span class="x">,</span>
+        <span class="n">assets</span><span class="o">=</span><span class="kt">String</span><span class="x">[],</span>
+    <span class="x">),</span>
+    <span class="n">pages</span><span class="o">=</span><span class="x">[</span>
+        <span class="s">"Home"</span> <span class="o">=&gt;</span> <span class="s">"index.md"</span><span class="x">,</span>
+    <span class="x">],</span>
+<span class="x">)</span>
+
+<span class="n">deploydocs</span><span class="x">(;</span>
+    <span class="n">repo</span><span class="o">=</span><span class="s">"github.com/abap34/PixelArt.jl"</span><span class="x">,</span>
+<span class="x">)</span>
+</code></pre></div></div>
+
+<p><img src="../images/document_res.png" alt="result"></p>
+
+<p>すると、このように自動で構築されます！便利。</p>
+
+<p>また、これとは別にREADME.mdを書いておきましょう。</p>
+
+<p>これがないとなんのパッケージなのか最初はわからなくなってしまいます。</p>
+<h1 id="登録">
+<a class="anchor" href="#%E7%99%BB%E9%8C%B2" aria-hidden="true"><span class="octicon octicon-link"></span></a>登録</h1>
+
+<p>さて、ここまでで構築、テスト、documentとやってきましたが最後にこれを公式のパッケージとして登録します。</p>
+
+<p>※ 一応、ここまでの結果をGitHubなどにアップロードすることで非公式(いわゆる野良パッケージ)として使えます。</p>
+
+<p>もしも公式パッケージにする場合は、まずProject.tomlを編集する必要があります。</p>
+
+<p>Project.tomlの[compat]は、PkgTemplateでは <code class="highlighter-rouge">julia="1"</code> のみ生成されていますが、追加されたパッケージについても書く必要があります。</p>
+
+<p>([compat]は動作保証をするパッケージのバージョンを列挙する項目です。)</p>
+
+<p>今回は、以下のようにしました。</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[compat]</span>
+<span class="py">julia</span> <span class="p">=</span> <span class="s">"1.5"</span>
+<span class="py">Clustering</span> <span class="p">=</span> <span class="s">"0.14"</span>
+<span class="py">Documenter</span> <span class="p">=</span> <span class="s">"0.24"</span>
+<span class="py">ImageMagick</span> <span class="p">=</span> <span class="s">"1.1"</span>
+<span class="py">Images</span>  <span class="p">=</span> <span class="s">"0.22"</span>
+<span class="py">QuartzImageIO</span>  <span class="p">=</span> <span class="s">"0.6"</span>
+<span class="py">TestImages</span>  <span class="p">=</span> <span class="s">"1.0"</span>
+</code></pre></div></div>
+
+<p>さて、Project.tomlを更新したら早速登録しましょう。</p>
+
+<p>公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRをする必要がありますが、</p>
+
+<p>自分で書くわけではなく基本的に自動で生成します。</p>
+
+<p>おそらく最も敷居が低いのはJuliaHubから申請する方法です。</p>
+
+<p>https://juliahub.com　</p>
+
+<p>にログインして、Contribute &gt; Register Packagesを選択して、</p>
+
+<ul>
+  <li>パッケージのGitHubレポジトリのURL</li>
+  <li>パッケージの名前</li>
+  <li>開発者(もしくはグループ)の名前
+etc…</li>
+</ul>
+
+<p>を入力しています。</p>
+
+<p>今回の場合は、以下のようになりました。</p>
+
+<p><a href="../images/registar.png">input-example</a></p>
+
+<p>そしてSubmitを押すと、自動的にプルリクエストが作られます。</p>
+
+<p><a href="../images/pr.png">pr</a></p>
+
+<p>また、<a href="https://github.com/JuliaRegistries/Registrator.jl?installation_id=14442588&amp;setup_action=install#how-to-use">Registrator.jl</a>を利用する方法もあります。</p>
+
+<p><a href="https://github.com/JuliaRegistries/Registrator.jl?installation_id=14442588&amp;setup_action=install#install-registrator">README.mdのInstall部分</a>　からインストールして、登録したいパッケージのレポジトリにissueを立て,</p>
+
+<p><code class="highlighter-rouge">@JuliaRegistrator register</code> とコメントすることで自動でPRを立ててくれます。</p>
+
+<p>実は最初のPRでProject.tomlに[compat]を追加するのを忘れてしまって更新する必要があったのですが、この方法だと何度も更新して一発で申請できるので不安な場合はこちらの方がいいかもしれないです。</p>
+
+<p><a href="../images/path-ci.png">path-ci</a></p>
+
+<p>全てのCIを通過して3日たつと自動でマージされます！仮に何かしら引っかかった場合は修正して再度<code class="highlighter-rouge">@JuliaRegistrator register</code> をしましょう。</p>
+
+<p>通過しなかったPRを自動で修正してくれます。(つまりPRを取り下げる必要はありません)</p>
+
+<p>#　kekka</p>
+
+<p>{マージされたら書きます！}</p>
+
+  </div><a class="u-url" href="/my-website/julialang/2020/01/31/julia-make-public-pkg.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/my-website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/my-website/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/my-website/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/abap34" title="abap34"><svg class="svg-icon grey"><use xlink:href="/my-website/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/abap34" title="abap34"><svg class="svg-icon grey"><use xlink:href="/my-website/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
