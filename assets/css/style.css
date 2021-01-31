@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .highlight .c { color: #998; font-style: italic; }
 
 .highlight .err { color: #a61717; background-color: #e3d2d2; }
@@ -448,6 +449,10 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 .page-content { /* background: #ffffff; border-radius: 12px; padding: 20px 20px !important; */ max-width: 100%; width: 800px; margin: 20px auto 0; }
 
 .post-title.p-name { margin: 20px 0 !important; font-size: 28px !important; font-weight: 700 !important; }
+
+.page-content h1 { color: #000000; /*文字色*/ padding: 0.5em 0; /*上下の余白*/ border-top: solid 3px #5f5f5f; /*上線*/ border-bottom: solid 3px #5f5f5f; /*下線*/ }
+
+.page-content h1 { /*線の種類（実線） 太さ 色*/ border-bottom: solid 3px black; }
 
 .page-content p { font-size: 16px !important; line-height: 1.5; }
 
