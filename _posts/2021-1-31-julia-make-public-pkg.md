@@ -524,6 +524,7 @@ deploydocs(;
 また、これとは別にREADME.mdを書いておきましょう。
 
 これがないとなんのパッケージなのか最初はわからなくなってしまいます。
+
 # 登録
 
 さて、ここまでで構築、テスト、documentとやってきましたが最後にこれを公式のパッケージとして登録します。
@@ -574,14 +575,12 @@ etc...
 
 今回の場合は、以下のようになりました。
 
-[input-example](../images/registar.png)
-
+![]({{ site.baseurl }}/images/registar.png))
 
 そしてSubmitを押すと、自動的にプルリクエストが作られます。
 
-[pr](../images/pr.png)
 
-
+![]({{ site.baseurl }}/images/pr.png))
 
 
 
@@ -593,7 +592,8 @@ etc...
 
 実は最初のPRでProject.tomlに[compat]を追加するのを忘れてしまって更新する必要があったのですが、この方法だと何度も更新して一発で申請できるので不安な場合はこちらの方がいいかもしれないです。
 
-[path-ci](../images/path-ci.png)
+
+![]({{ site.baseurl }}/images/path-ci.png))
 
 全てのCIを通過して3日たつと自動でマージされます！仮に何かしら引っかかった場合は修正して再度`@JuliaRegistrator register` をしましょう。
 
