@@ -451,7 +451,7 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 
 h1 { position: relative; display: inline-block; margin-bottom: 1em; }
 
-h1:before { content: ''; position: absolute; bottom: -15px; display: inline-block; width: 100px; height: 5px; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); background-color: black; border-radius: 2px; }
+h1:before { content: ''; position: absolute; bottom: -15px; display: inline-block; width: 250px; height: 5px; left: 50%; -webkit-transform: translateX(-50%); transform: translateX(-50%); background-color: black; border-radius: 2px; }
 
 .page-content p { font-size: 16px !important; line-height: 1.5; }
 
