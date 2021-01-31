@@ -23,7 +23,7 @@ image: images/pr.png
 
 # PkgTemplates.jlを用いた雛形づくり
 
-さて、パッケージを作ると言っても具体的にどのように手をつければ良いかわからないと思います。
+さて、パッケージを作ると言っても具体的にどこから手をつければ良いかわからないと思います。
 
 そこで役に立つのがPkgTemplates.jlです。
 
@@ -49,7 +49,7 @@ julia> t = Template(;
 
 ```
 
-さて、このようにしてTemplateの設定を済ませて、
+
 
 ```julia
 
@@ -89,10 +89,14 @@ shell> tree
     └── runtests.jl
 ```
 
+こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。
 
-今回は前回作った [画像をdot絵にするやつ](https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html)　をパッケージにしていきます。
+今回は例として、前回作った [画像をdot絵にするやつ](https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html)　をパッケージにしていきます。
 
-これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。
+まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。
+
+`dev {filepath}` で開発中のローカルのパッケージを認識させることができます。
+
 
 ```julia
 shell> pwd
@@ -107,6 +111,8 @@ Updating `~/.julia/environments/v1.5/Project.toml`
 Updating `~/.julia/environments/v1.5/Manifest.toml`
   [0ba03b52] + PixelArt v0.1.0 `../../../Desktop/PixelArt`
 ```
+
+
 
 また、PixelArt.jlはImages.jlに依存しているので追加しておきます。
 
@@ -129,6 +135,7 @@ Updating `~/.julia/environments/v1.5/Manifest.toml`
 
 
 ## ファイル構成
+
 まず, 
 src/PixelArt.jlは主に、
 
@@ -554,11 +561,20 @@ TestImages  = "1.0"
 
 さて、Project.tomlを更新したら早速登録しましょう。
 
-公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRをする必要がありますが、
+公式パッケージにするためには https://github.com/JuliaRegistries/General　にPRを出す必要がありますが、
 
 自分で書くわけではなく基本的に自動で生成します。
 
-おそらく最も敷居が低いのはJuliaHubから申請する方法です。
+このとき、
+
+- JuliaHubから申請
+- Registrator.jlを使用
+
+という二つの選択肢があります。
+
+
+
+おそらく最も敷居が低いのは前者のJuliaHubから申請する方法です。
 
 https://juliahub.com　
 
@@ -571,11 +587,7 @@ https://juliahub.com　
 - 開発者(もしくはグループ)の名前
 etc...
 
-を入力しています。
-
-今回の場合は、以下のようになりました。
-
-![]({{ site.baseurl }}/images/registar.png))
+を入力します。
 
 そしてSubmitを押すと、自動的にプルリクエストが作られます。
 
@@ -597,9 +609,9 @@ etc...
 
 全てのCIを通過して3日たつと自動でマージされます！仮に何かしら引っかかった場合は修正して再度`@JuliaRegistrator register` をしましょう。
 
-通過しなかったPRを自動で修正してくれます。(つまりPRを取り下げる必要はありません)
+通過しなかったPRを自動で修正してくれます。便利。(つまりPRを取り下げる必要はありません)
 
 
-#　kekka
+# kekka
 
 {マージされたら書きます！}
