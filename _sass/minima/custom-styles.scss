@@ -18,7 +18,7 @@
 
 
 .input pre{
-  background-color: #ffffff;
+  background-color: rgb(246, 246, 246);
   color: rgba(41, 41, 41, 0.603);
 }
 
@@ -26,7 +26,7 @@
 
 body {
   counter-reset: number 0;
-  background: linear-gradient(to bottom, #eef8ff 0%, #f2f2fd 100%);
+  background: #ffffff;
   padding: 0 20px !important;
 }
 
@@ -68,7 +68,7 @@ body {
   border-left: 6px solid rgb(54, 91, 255);
 }
 .page-content p {
-  font-size: 14px !important;
+  font-size: 16px !important;
   line-height: 1.5;
 }
 .site-footer {
