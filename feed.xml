@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://abap34.github.io/my-website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://abap34.github.io/my-website/" rel="alternate" type="text/html" /><updated>2021-01-31T07:05:25-06:00</updated><id>https://abap34.github.io/my-website/feed.xml</id><title type="html">ShibaInu-Doc</title><subtitle>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</subtitle><entry><title type="html">Juliaで公式パッケージを作ろう！🐕</title><link href="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html" rel="alternate" type="text/html" title="Juliaで公式パッケージを作ろう！🐕" /><published>2021-01-31T00:00:00-06:00</published><updated>2021-01-31T00:00:00-06:00</updated><id>https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg</id><content type="html" xml:base="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html">&lt;p&gt;この記事では、モジュールやパッケージ関連の操作がわかることを前提として、&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://abap34.github.io/my-website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://abap34.github.io/my-website/" rel="alternate" type="text/html" /><updated>2021-01-31T07:10:42-06:00</updated><id>https://abap34.github.io/my-website/feed.xml</id><title type="html">ShibaInu-Doc</title><subtitle>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</subtitle><entry><title type="html">Juliaで公式パッケージを作ろう！🐕</title><link href="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html" rel="alternate" type="text/html" title="Juliaで公式パッケージを作ろう！🐕" /><published>2021-01-31T00:00:00-06:00</published><updated>2021-01-31T00:00:00-06:00</updated><id>https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg</id><content type="html" xml:base="https://abap34.github.io/my-website/julialang/2021/01/31/julia-make-public-pkg.html">&lt;p&gt;この記事では、モジュールやパッケージ関連の操作がわかることを前提として、&lt;/p&gt;
 
 &lt;p&gt;公式パッケージ化のために&lt;/p&gt;
 
@@ -463,6 +463,7 @@ end
 &lt;p&gt;また、これとは別にREADME.mdを書いておきましょう。&lt;/p&gt;
 
 &lt;p&gt;これがないとなんのパッケージなのか最初はわからなくなってしまいます。&lt;/p&gt;
+
 &lt;h1 id=&quot;登録&quot;&gt;登録&lt;/h1&gt;
 
 &lt;p&gt;さて、ここまでで構築、テスト、documentとやってきましたが最後にこれを公式のパッケージとして登録します。&lt;/p&gt;
@@ -510,11 +511,11 @@ etc…&lt;/li&gt;
 
 &lt;p&gt;今回の場合は、以下のようになりました。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;../images/registar.png&quot;&gt;input-example&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/my-website/images/registar.png&quot; alt=&quot;&quot; /&gt;)&lt;/p&gt;
 
 &lt;p&gt;そしてSubmitを押すと、自動的にプルリクエストが作られます。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;../images/pr.png&quot;&gt;pr&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/my-website/images/pr.png&quot; alt=&quot;&quot; /&gt;)&lt;/p&gt;
 
 &lt;p&gt;また、&lt;a href=&quot;https://github.com/JuliaRegistries/Registrator.jl?installation_id=14442588&amp;amp;setup_action=install#how-to-use&quot;&gt;Registrator.jl&lt;/a&gt;を利用する方法もあります。&lt;/p&gt;
 
@@ -524,7 +525,7 @@ etc…&lt;/li&gt;
 
 &lt;p&gt;実は最初のPRでProject.tomlに[compat]を追加するのを忘れてしまって更新する必要があったのですが、この方法だと何度も更新して一発で申請できるので不安な場合はこちらの方がいいかもしれないです。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;../images/path-ci.png&quot;&gt;path-ci&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/my-website/images/path-ci.png&quot; alt=&quot;&quot; /&gt;)&lt;/p&gt;
 
 &lt;p&gt;全てのCIを通過して3日たつと自動でマージされます！仮に何かしら引っかかった場合は修正して再度&lt;code class=&quot;highlighter-rouge&quot;&gt;@JuliaRegistrator register&lt;/code&gt; をしましょう。&lt;/p&gt;
 

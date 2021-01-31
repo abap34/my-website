@@ -449,8 +449,6 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 
 .post-title.p-name { margin: 20px 0 !important; font-size: 28px !important; font-weight: 700 !important; }
 
-.page-content h2 { background: #eeeeee; padding: 8px 16px; border-left: 6px solid #365bff; }
-
 .page-content p { font-size: 16px !important; line-height: 1.5; }
 
 .site-footer { width: 800px; max-width: 100%; margin: 0 auto; }
