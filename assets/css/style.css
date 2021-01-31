@@ -450,7 +450,7 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 
 .post-title.p-name { margin: 20px 0 !important; font-size: 35px !important; font-weight: 700 !important; }
 
-h1 { /*線の種類（実線） 太さ 色*/ border-bottom: solid 3px #292929; }
+.page-content h1 { /*線の種類（実線） 太さ 色*/ border-bottom: solid 3px #292929; }
 
 .page-content p { font-size: 16px !important; line-height: 1.5; }
 
