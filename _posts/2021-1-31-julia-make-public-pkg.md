@@ -4,6 +4,7 @@ layout: post
 description: Juliaで開発, ドキュメント生成、登録まで。
 categories: [JuliaLang]
 title: Juliaで公式パッケージを作ろう！🐕
+image: images/pr.png
 ---
 
 
