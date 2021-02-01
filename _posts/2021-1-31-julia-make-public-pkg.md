@@ -91,7 +91,7 @@ shell> tree
 
 こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。
 
-今回は例として、前回作った [画像をdot絵にするやつ](https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html)　をパッケージにしていきます。
+今回は例として、前回作った [画像をdot絵にするやつ](https://abap34.github.io/my-website/julialang/image/ml/2021/01/30/dot-art.html)　をパッケージにしていきます。
 
 まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。
 
@@ -415,7 +415,7 @@ f(hoge, [, huga, huge])
 
 - 実行例を書く。
 
-````julia
+````
 # Examples
 
 ​```jldoctest
@@ -428,7 +428,7 @@ julia> f("huga")
 ここまでを連結して書くと以下のような感じ。
 
 
-````julia
+````
 """
     f(hoge, [, huga, huge])
 
@@ -443,6 +443,7 @@ julia> f("huga")
 julia> f("huga")
 "hugahuga"
 ```
+"""
 function f(hoge; huga=1, huga=2)
     # なんかの処理
 end
@@ -522,7 +523,7 @@ deploydocs(;
 )
 ```
 
-![result](../images/document_res.png)
+![result]({{ site.baseurl }}/images/document_res.png)
 
 
 すると、このように自動で構築されます！便利。
