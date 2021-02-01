@@ -233,7 +233,7 @@ shell&gt; tree
 
 <p>こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。</p>
 
-<p>今回は例として、前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/29/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
+<p>今回は例として、前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/30/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
 
 <p>まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。</p>
 
@@ -529,18 +529,18 @@ src/ 以下のファイル群に書かれていることが多いと思います
   <li>実行例を書く。</li>
 </ul>
 
-<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Examples</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Examples
 
-<span class="n">​</span><span class="sb">``</span><span class="err">`</span><span class="n">jldoctest</span>
+​```jldoctest
 
-<span class="n">julia</span><span class="o">&gt;</span> <span class="n">f</span><span class="x">(</span><span class="s">"huga"</span><span class="x">)</span>
-<span class="s">"hugahuga"</span>
-<span class="sb">``</span><span class="err">`</span>
+julia&gt; f("huga")
+"hugahuga"
+```
 </code></pre></div></div>
 
 <p>ここまでを連結して書くと以下のような感じ。</p>
 
-<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"""
     f(hoge, [, huga, huge])
 
 # Arguments
@@ -551,13 +551,14 @@ src/ 以下のファイル群に書かれていることが多いと思います
 
 ​```jldoctest
 
-julia&gt; f("</span><span class="n">huga</span><span class="s">")
-"</span><span class="n">hugahuga</span><span class="s">"
+julia&gt; f("huga")
+"hugahuga"
 ```
+"""
 function f(hoge; huga=1, huga=2)
     # なんかの処理
 end
-</span></code></pre></div></div>
+</code></pre></div></div>
 
 <p>ここで実行例の先頭に<code class="highlighter-rouge">jldoctest</code>と書いてありますが、</p>
 
@@ -624,7 +625,7 @@ end
 <span class="x">)</span>
 </code></pre></div></div>
 
-<p><img src="../images/document_res.png" alt="result"></p>
+<p><img src="/my-website/images/document_res.png" alt="result"></p>
 
 <p>すると、このように自動で構築されます！便利。</p>
 
