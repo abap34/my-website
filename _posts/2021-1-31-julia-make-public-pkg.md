@@ -19,7 +19,7 @@ image: images/pr.png
 
 の4つを順に解説してパッケージを作っていきます。
 
-
+(以下の説明のリンク/ファイル構成などは、PixelArt.jlに関するものなので、適宜ユーザー名、パッケージ名etc...は読み替えてください。)
 
 # PkgTemplates.jlを用いた雛形づくり
 
@@ -91,7 +91,7 @@ shell> tree
 
 こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。
 
-今回は例として、前回作った [画像をdot絵にするやつ](https://abap34.github.io/my-website/julialang/image/ml/2021/01/30/dot-art.html)　をパッケージにしていきます。
+今回は例として、前回作った [画像をdot絵にするやつ](https://abap34.github.io/my-website/julialang/image/ml/2021/01/31/dot-art.html)　をパッケージにしていきます。
 
 まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。
 
@@ -464,7 +464,7 @@ end
 
 # Examples
 
-```jldoctest
+```
 julia> using PixelArt
 
 julia> using Images
@@ -528,10 +528,69 @@ deploydocs(;
 
 すると、このように自動で構築されます！便利。
 
+ローカルではこのようにしてドキュメントが構築されましたが、誰もが閲覧できるようにインターネット上に公開しましょう。
 
-また、これとは別にREADME.mdを書いておきましょう。
+ここでは、既に設定されている、Travis CIの定期実行とGitHubPagesを用いて, 自動でドキュメントを生成/公開する方法を紹介します。
 
-これがないとなんのパッケージなのか最初はわからなくなってしまいます。
+
+## TravisCIとGitHubPagesを用いたドキュメントの公開。
+
+
+まずは、DocumenterTools.jlを用いて、SSH DeployKeysを作成します。
+
+```
+pkg> add DocumenterTools
+julia> using DocumenterTools
+Then call the DocumenterTools.genkeys function as follows:
+
+julia> using PixelArt
+julia> DocumenterTools.genkeys(user="abap34", repo="git@github.com:abap34/PixelArt.jl.git")
+```
+
+このように自分のGithubのユーザ名、レポジトリを指定します。
+
+すると、
+
+```
+[ Info: add the public key below to https://github.com/USER/REPO/settings/keys
+      with read/write access:
+
+[SSH PUBLIC KEY HERE]
+
+[ Info: add a secure environment variable named 'DOCUMENTER_KEY' to
+  https://travis-ci.com/USER/REPO/settings with value:
+
+[LONG BASE64 ENCODED PRIVATE KEY]
+```
+
+というフォーマットの文字列がたくさん出てきます。
+
+これを登録することでドキュメントをデプロイできるようにします。
+まず前者、 `ssh-rsa` 以下の公開鍵をレポジトリに登録します。
+
+レポジトリの, settings > Deploy keysから、文字列を登録してください。
+
+注意点として、このときwrite sccessにチェックを入れるのを忘れないでください。
+
+次にTravis CIの設定です。
+
+https://travis-ci.org/github/abap34/PixelArt.jl にアクセスして、
+
+settings > Environment Variablesから、
+
+**DOCUMENTER_KEY**と言う名前で、秘密鍵を登録しましょう。
+
+また、安全性の観点から、この時`DISPLAY VALUE IN BUILD LOG`はオフになっていることを確認しましょう。
+
+これが漏れてしまうと、パッケージがやりたい放題されてしまいます。
+
+### 結果
+
+さて, このように設定を完了した結果、documentを自動生成し、公開することができました。
+
+https://abap34.github.io/PixelArt.jl/dev/
+
+
 
 # 登録
 
@@ -615,4 +674,58 @@ etc...
 
 # kekka
 
-{マージされたら書きます！}
+無事にマージされ、
+
+```
+add PixelArt
+```
+
+のみでパッケージを追加できるようになりました！
+
+```
+(@v1.5) pkg> activate .
+ Activating new environment at `~/Desktop/_workspace/Project.toml`
+
+(_workspace) pkg> status
+Status `~/Desktop/_workspace/Project.toml` (empty project)
+
+(_workspace) pkg> add PixelArt
+  Resolving package versions...
+  Installed Images ───────── v0.22.5
+  Installed DataStructures ─ v0.18.9
+Updating `~/Desktop/_workspace/Project.toml`
+  [0ba03b52] + PixelArt v0.1.0
+Updating `~/Desktop/_workspace/Manifest.toml`
+  [621f4979] + AbstractFFTs v1.0.1
+  [79e6a3ab] + Adapt v3.2.0
+  [4fba245c] + ArrayInterface v3.1.5
+  [56f22d72] + Artifacts v1.3.0
+<中略>
+  [4ec0a83e] + Unicode
+
+julia> using PixelArt
+[ Info: Precompiling PixelArt [0ba03b52-44ea-4ae8-ae76-4c95056a1ba8]
+
+help?> pixel
+search: pixel PixelArt CompositeException ProcessFailedException
+
+  pixel(img, [, n_color, w, h]) -> Array{RGB{Float64}}
+
+  Examples
+  ≡≡≡≡≡≡≡≡≡≡
+
+  julia> using PixelArt
+
+  julia> using Images
+
+  julia> img = load("img.jpg");
+
+  julia> img_pixel = pixel(img);
+
+  julia> save("img_pixel.jpg", img_pixel)
+```
+
+
+無事にdocstringとdocumentも確認できました。(https://abap34.github.io/PixelArt.jl/dev/#)
+
+どんどん公式パッケージを開発して、Juliaの発展に寄与していきましょう！
