@@ -123,7 +123,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -151,6 +151,11 @@ window.onload = wrap_img;
 <ul>
 <li class="toc-entry toc-h2"><a href="#docstring">docstring</a></li>
 <li class="toc-entry toc-h2"><a href="#documenterjl">Documenter.jl</a></li>
+<li class="toc-entry toc-h2"><a href="#travisciとgithubpagesを用いたドキュメントの公開">TravisCIとGitHubPagesを用いたドキュメントの公開。</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#結果">結果</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-entry toc-h1"><a href="#登録">登録</a></li>
@@ -167,6 +172,8 @@ window.onload = wrap_img;
 </ul>
 
 <p>の4つを順に解説してパッケージを作っていきます。</p>
+
+<p>(以下の説明のリンク/ファイル構成などは、PixelArt.jlに関するものなので、適宜ユーザー名、パッケージ名etc…は読み替えてください。)</p>
 
 <h1 id="pkgtemplatesjlを用いた雛形づくり">
 <a class="anchor" href="#pkgtemplatesjl%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E9%9B%9B%E5%BD%A2%E3%81%A5%E3%81%8F%E3%82%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>PkgTemplates.jlを用いた雛形づくり</h1>
@@ -233,7 +240,7 @@ shell&gt; tree
 
 <p>こうして出来たファイル群を更新/追加　することでパッケージを作成していきます。</p>
 
-<p>今回は例として、前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/30/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
+<p>今回は例として、前回作った <a href="https://abap34.github.io/my-website/julialang/image/ml/2021/01/31/dot-art.html">画像をdot絵にするやつ</a>　をパッケージにしていきます。</p>
 
 <p>まず、これからコードを動かすためにPixelArt.jlをJuliaに認識してもらいます。</p>
 
@@ -571,7 +578,7 @@ end
 
 # Examples
 
-```jldoctest
+```
 julia&gt; using PixelArt
 
 julia&gt; using Images
@@ -629,9 +636,65 @@ end
 
 <p>すると、このように自動で構築されます！便利。</p>
 
-<p>また、これとは別にREADME.mdを書いておきましょう。</p>
+<p>ローカルではこのようにしてドキュメントが構築されましたが、誰もが閲覧できるようにインターネット上に公開しましょう。</p>
 
-<p>これがないとなんのパッケージなのか最初はわからなくなってしまいます。</p>
+<p>ここでは、既に設定されている、Travis CIの定期実行とGitHubPagesを用いて, 自動でドキュメントを生成/公開する方法を紹介します。</p>
+
+<h2 id="travisciとgithubpagesを用いたドキュメントの公開">
+<a class="anchor" href="#travisci%E3%81%A8githubpages%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88%E3%81%AE%E5%85%AC%E9%96%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>TravisCIとGitHubPagesを用いたドキュメントの公開。</h2>
+
+<p>まずは、DocumenterTools.jlを用いて、SSH DeployKeysを作成します。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pkg&gt; add DocumenterTools
+julia&gt; using DocumenterTools
+Then call the DocumenterTools.genkeys function as follows:
+
+julia&gt; using PixelArt
+julia&gt; DocumenterTools.genkeys(user="abap34", repo="git@github.com:abap34/PixelArt.jl.git")
+</code></pre></div></div>
+
+<p>このように自分のGithubのユーザ名、レポジトリを指定します。</p>
+
+<p>すると、</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ Info: add the public key below to https://github.com/USER/REPO/settings/keys
+      with read/write access:
+
+[SSH PUBLIC KEY HERE]
+
+[ Info: add a secure environment variable named 'DOCUMENTER_KEY' to
+  https://travis-ci.com/USER/REPO/settings with value:
+
+[LONG BASE64 ENCODED PRIVATE KEY]
+</code></pre></div></div>
+
+<p>というフォーマットの文字列がたくさん出てきます。</p>
+
+<p>これを登録することでドキュメントをデプロイできるようにします。
+まず前者、 <code class="highlighter-rouge">ssh-rsa</code> 以下の公開鍵をレポジトリに登録します。</p>
+
+<p>レポジトリの, settings &gt; Deploy keysから、文字列を登録してください。</p>
+
+<p>注意点として、このときwrite sccessにチェックを入れるのを忘れないでください。</p>
+
+<p>次にTravis CIの設定です。</p>
+
+<p>https://travis-ci.org/github/abap34/PixelArt.jl にアクセスして、</p>
+
+<p>settings &gt; Environment Variablesから、</p>
+
+<p><strong>DOCUMENTER_KEY</strong>と言う名前で、秘密鍵を登録しましょう。</p>
+
+<p>また、安全性の観点から、この時<code class="highlighter-rouge">DISPLAY VALUE IN BUILD LOG</code>はオフになっていることを確認しましょう。</p>
+
+<p>これが漏れてしまうと、パッケージがやりたい放題されてしまいます。</p>
+
+<h3 id="結果">
+<a class="anchor" href="#%E7%B5%90%E6%9E%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>結果</h3>
+
+<p>さて, このように設定を完了した結果、documentを自動生成し、公開することができました。</p>
+
+<p>https://abap34.github.io/PixelArt.jl/dev/</p>
 
 <h1 id="登録">
 <a class="anchor" href="#%E7%99%BB%E9%8C%B2" aria-hidden="true"><span class="octicon octicon-link"></span></a>登録</h1>
@@ -709,7 +772,58 @@ etc…</li>
 <h1 id="kekka">
 <a class="anchor" href="#kekka" aria-hidden="true"><span class="octicon octicon-link"></span></a>kekka</h1>
 
-<p>{マージされたら書きます！}</p>
+<p>無事にマージされ、</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add PixelArt
+</code></pre></div></div>
+
+<p>のみでパッケージを追加できるようになりました！</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(@v1.5) pkg&gt; activate .
+ Activating new environment at `~/Desktop/_workspace/Project.toml`
+
+(_workspace) pkg&gt; status
+Status `~/Desktop/_workspace/Project.toml` (empty project)
+
+(_workspace) pkg&gt; add PixelArt
+  Resolving package versions...
+  Installed Images ───────── v0.22.5
+  Installed DataStructures ─ v0.18.9
+Updating `~/Desktop/_workspace/Project.toml`
+  [0ba03b52] + PixelArt v0.1.0
+Updating `~/Desktop/_workspace/Manifest.toml`
+  [621f4979] + AbstractFFTs v1.0.1
+  [79e6a3ab] + Adapt v3.2.0
+  [4fba245c] + ArrayInterface v3.1.5
+  [56f22d72] + Artifacts v1.3.0
+&lt;中略&gt;
+  [4ec0a83e] + Unicode
+
+julia&gt; using PixelArt
+[ Info: Precompiling PixelArt [0ba03b52-44ea-4ae8-ae76-4c95056a1ba8]
+
+help?&gt; pixel
+search: pixel PixelArt CompositeException ProcessFailedException
+
+  pixel(img, [, n_color, w, h]) -&gt; Array{RGB{Float64}}
+
+  Examples
+  ≡≡≡≡≡≡≡≡≡≡
+
+  julia&gt; using PixelArt
+
+  julia&gt; using Images
+
+  julia&gt; img = load("img.jpg");
+
+  julia&gt; img_pixel = pixel(img);
+
+  julia&gt; save("img_pixel.jpg", img_pixel)
+</code></pre></div></div>
+
+<p>無事にdocstringとdocumentも確認できました。(https://abap34.github.io/PixelArt.jl/dev/#)</p>
+
+<p>どんどん公式パッケージを開発して、Juliaの発展に寄与していきましょう！</p>
 
   </div><a class="u-url" href="/my-website/julialang/2021/01/31/julia-make-public-pkg.html" hidden></a>
 </article>
