@@ -439,7 +439,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important; }
 
-.site-header { border: none !important; width: 800px; position: fixed; top: 0; max-width: 100%; margin: 0 auto; }
+.site-header { border: none !important; width: 100vw; background-color: white; position: fixed; top: 0; max-width: 100%; margin: 0 auto; }
 
 .wrapper { margin: 0 !important; padding: 0 !important; }
 
