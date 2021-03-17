@@ -437,7 +437,7 @@ table td { text-overflow: ellipsis; overflow: hidden; max-width: 15em; }
 
 .input pre { background-color: #f6f6f6; color: rgba(41, 41, 41, 0.603); }
 
-body { counter-reset: number 0; background: #fffaed; padding: 0 20px !important; }
+body { counter-reset: number 0; background-color: #fdfcf7; padding: 0 20px !important; }
 
 .site-header { border: none !important; width: 800px; position: fixed; top: 0; max-width: 100%; margin: 0 auto; }
 
@@ -461,9 +461,9 @@ body { counter-reset: number 0; background: #fffaed; padding: 0 20px !important;
 
 #posts { display: none; }
 
-.highlighter-rouge .highlight { background: #fdfaf1; }
+.highlighter-rouge .highlight { background: #fffdf7; }
 
-tt, code { background-color: #fdfaf1; }
+tt, code { background-color: #fffdf7; }
 
 .post-content p, .post-content li { font-size: 16px; color: #515151; }
 
