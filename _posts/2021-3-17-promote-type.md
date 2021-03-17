@@ -25,11 +25,11 @@ image: images/promote.png
 
 {% twitter https://twitter.com/LirimyDh/status/1371653754215223302 %}
 
-というpromoteを使った解決策を教えていただきました。
+というpromotionを使った解決策を教えていただきました。
 
 実際に簡潔な実装にできるかどうかは置いておいて、昇格や型変換に興味を持ったので、
 
-Juliaのdocumentのconversion and promotionという章の日本語訳を元にしてこれらを解説し、またこれらを使った実装を示します。
+Juliaのドキュメントのconversion and promotionという章の日本語訳を元にしてこれらを解説し、またこれらを使った実装を示します。
 
 (以下、日本語訳。意訳・省略・補足等を多用しています。完全な翻訳はhttps://mnru.github.io/julia-doc-ja-v1.0/manual/conversion-and-promotion.html#conversion-and-promotion-1などを参照してください。)
 
