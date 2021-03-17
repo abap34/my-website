@@ -27,7 +27,7 @@
 
 body {
   counter-reset: number 0;
-  background: rgb(255, 250, 237);
+  background-color: rgb(253, 252, 247);
   padding: 0 20px !important;
 }
 
@@ -100,12 +100,12 @@ body {
 }
 
 .highlighter-rouge .highlight {
-    background: rgb(253, 250, 241);
+    background: rgb(255, 253, 247);
 }
 
 
 tt, code {
-  background-color: rgb(253, 250, 241);
+  background-color: rgb(255, 253, 247);
 }
 
 .post-content p, .post-content li {
