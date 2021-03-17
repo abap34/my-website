@@ -1,4 +1,13 @@
-# JuliaのConversion and Promotionを訳す。
+---
+toc: true
+layout: post
+description: Juliaの型変換とpromotion(昇格)について解説します。
+categories: [JuliaLang]
+title: Juliaの型変換とpromotion(昇格)
+image: images/promote.png
+---
+
+
 
 先日, 
 
