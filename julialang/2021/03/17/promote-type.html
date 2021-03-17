@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Juliaの型変換とpromotion(昇格) | ShibaInu-Doc</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Juliaの型変換とpromotion(昇格)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Juliaの型変換とpromotion(昇格)について解説します。" />
+<meta property="og:description" content="Juliaの型変換とpromotion(昇格)について解説します。" />
+<link rel="canonical" href="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html" />
+<meta property="og:url" content="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html" />
+<meta property="og:site_name" content="ShibaInu-Doc" />
+<meta property="og:image" content="https://abap34.github.io/my-website/images/promote.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-17T00:00:00-05:00" />
+<script type="application/ld+json">
+{"headline":"Juliaの型変換とpromotion(昇格)","dateModified":"2021-03-17T00:00:00-05:00","datePublished":"2021-03-17T00:00:00-05:00","description":"Juliaの型変換とpromotion(昇格)について解説します。","image":"https://abap34.github.io/my-website/images/promote.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html"},"@type":"BlogPosting","url":"https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/my-website/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://abap34.github.io/my-website/feed.xml" title="ShibaInu-Doc" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-174991393-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/my-website/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Juliaの型変換とpromotion(昇格) | ShibaInu-Doc</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Juliaの型変換とpromotion(昇格)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Juliaの型変換とpromotion(昇格)について解説します。" />
+<meta property="og:description" content="Juliaの型変換とpromotion(昇格)について解説します。" />
+<link rel="canonical" href="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html" />
+<meta property="og:url" content="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html" />
+<meta property="og:site_name" content="ShibaInu-Doc" />
+<meta property="og:image" content="https://abap34.github.io/my-website/images/promote.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-17T00:00:00-05:00" />
+<script type="application/ld+json">
+{"headline":"Juliaの型変換とpromotion(昇格)","dateModified":"2021-03-17T00:00:00-05:00","datePublished":"2021-03-17T00:00:00-05:00","description":"Juliaの型変換とpromotion(昇格)について解説します。","image":"https://abap34.github.io/my-website/images/promote.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html"},"@type":"BlogPosting","url":"https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://abap34.github.io/my-website/feed.xml" title="ShibaInu-Doc" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-174991393-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/my-website/">ShibaInu-Doc</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/my-website/about/">About Me</a><a class="page-link" href="/my-website/search/">Search</a><a class="page-link" href="/my-website/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Juliaの型変換とpromotion(昇格)</h1><p class="page-description">Juliaの型変換とpromotion(昇格)について解説します。</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-17T00:00:00-05:00" itemprop="datePublished">
+        Mar 17, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/my-website/categories/#JuliaLang">JuliaLang</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#conversion-and-promotion">Conversion and Promotion</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#従来のプログラミング言語">従来のプログラミング言語</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#1-暗黙の型変換を行う言語">1: 暗黙の型変換を行う言語</a></li>
+<li class="toc-entry toc-h3"><a href="#2暗黙の型変換を行わない言語">2:暗黙の型変換を行わない言語</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#juliaの暗黙の型変換">Juliaの暗黙の型変換</a></li>
+<li class="toc-entry toc-h4"><a href="#juliaの異なる型同士の演算の実装">Juliaの異なる型同士の演算の実装</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#conversion">Conversion</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#convert関数">convert関数</a></li>
+<li class="toc-entry toc-h3"><a href="#いつconvertは呼び出されるのか">いつconvertは呼び出されるのか</a></li>
+<li class="toc-entry toc-h3"><a href="#conversion-vs-construction">Conversion vs. Construction</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#引数に関係ない型のコンストラクタ">引数に関係ない型のコンストラクタ</a></li>
+<li class="toc-entry toc-h4"><a href="#mutableなコレクション">mutableなコレクション</a></li>
+<li class="toc-entry toc-h4"><a href="#ラッパー型">ラッパー型</a></li>
+<li class="toc-entry toc-h4"><a href="#自身の型を返さないコンストラクタ">自身の型を返さないコンストラクタ</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#新しい変換を定義する">新しい変換を定義する</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#promotion">Promotion</a></li>
+<li class="toc-entry toc-h1"><a href="#promotion-rulesの定義">Promotion Rulesの定義</a></li>
+<li class="toc-entry toc-h1"><a href="#実装">実装</a></li>
+</ul><p>先日,</p>
+
+<div class="jekyll-twitter-plugin">
+<blockquote class="twitter-tweet">
+<p lang="ja" dir="ltr">すごい今更なんだけど、これもっと簡単に書けないかなぁ <a href="https://t.co/VocxHNVHvj">pic.twitter.com/VocxHNVHvj</a></p>— abap (@abap34) <a href="https://twitter.com/abap34/status/1371651401311424513?ref_src=twsrc%5Etfw">March 16, 2021</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+<div class="jekyll-twitter-plugin">
+<blockquote class="twitter-tweet">
+<p lang="ja" dir="ltr">一般化すると<br>・2引数の関数のどちらかが型Aなら、どちらもAになるようconvertして入力<br>したい</p>— abap (@abap34) <a href="https://twitter.com/abap34/status/1371651936089337859?ref_src=twsrc%5Etfw">March 16, 2021</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+<p>というようなツイートをしたところ</p>
+
+<div class="jekyll-twitter-plugin">
+<blockquote class="twitter-tweet">
+<p lang="ja" dir="ltr">promote使うとかかな？<br>演算子とペアの自動化ならマクロ使うとかかな？(自信なし) <a href="https://t.co/h3zypg6wuz">https://t.co/h3zypg6wuz</a></p>— ごまふあざらし (@MathSorcerer) <a href="https://twitter.com/MathSorcerer/status/1371652683006799876?ref_src=twsrc%5Etfw">March 16, 2021</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+<div class="jekyll-twitter-plugin">
+<blockquote class="twitter-tweet">
+<p lang="ja" dir="ltr">これでどうでしょうか？<a href="https://t.co/C78ibPd4R4">https://t.co/C78ibPd4R4</a></p>— Lirimy (@LirimyDh) <a href="https://twitter.com/LirimyDh/status/1371653754215223302?ref_src=twsrc%5Etfw">March 16, 2021</a>
+</blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+<p>というpromotionを使った解決策を教えていただきました。</p>
+
+<p>実際に簡潔な実装にできるかどうかは置いておいて、昇格や型変換に興味を持ったので、</p>
+
+<p>Juliaのドキュメントのconversion and promotionという章の日本語訳を元にしてこれらを解説し、またこれらを使った実装を示します。</p>
+
+<p>(以下、日本語訳。意訳・省略・補足等を多用しています。完全な翻訳はhttps://mnru.github.io/julia-doc-ja-v1.0/manual/conversion-and-promotion.html#conversion-and-promotion-1などを参照してください。)</p>
+
+<h1 id="conversion-and-promotion">
+<a class="anchor" href="#conversion-and-promotion" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://docs.julialang.org/en/v1/manual/conversion-and-promotion/#conversion-and-promotion">Conversion and Promotion</a>
+</h1>
+
+<p>Juliaは、数学的な演算子の引数を共通の型に昇格するシステム(暗黙の型変換)を備えています。</p>
+
+<p>このシステムについて、ドキュメントでは「整数と浮動小数点数」、「数学的演算子と初等関数」、「型」、「メソッド」他のいくつかの章で説明されていますが、</p>
+
+<p>この章では、昇格システムがどのように働くのか、またこのシステムをどのように新しい型に拡張するのか、組み込みの数学的な演算子以外に適用するのかを説明します。</p>
+
+<p>(注:のちに説明されますが、この”昇格”は型システムにおける親タイプなどとは関係なく、単にpromotionの訳語として用いています)</p>
+
+<h2 id="従来のプログラミング言語">
+<a class="anchor" href="#%E5%BE%93%E6%9D%A5%E3%81%AE%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E8%A8%80%E8%AA%9E" aria-hidden="true"><span class="octicon octicon-link"></span></a>従来のプログラミング言語</h2>
+
+<p>従来のプログラミング言語の昇格システムは、主に2つの陣営に分類することができます。</p>
+
+<h3 id="1-暗黙の型変換を行う言語">
+<a class="anchor" href="#1-%E6%9A%97%E9%BB%99%E3%81%AE%E5%9E%8B%E5%A4%89%E6%8F%9B%E3%82%92%E8%A1%8C%E3%81%86%E8%A8%80%E8%AA%9E" aria-hidden="true"><span class="octicon octicon-link"></span></a>1: 暗黙の型変換を行う言語</h3>
+
+<p>ほとんどの言語では、組み込みの数値型は、演算子(+, -, *など)の被演算子として用いられた時、期待される結果が得られるように、自動的に共通の型に昇格します。</p>
+
+<p>例えば、C, Java, Perl, Pythonなどはこのような部類に属します。</p>
+
+<p>このような言語で 1 + 1.5を計算することを考えてみます。</p>
+
+<p>このような式を書くときに、このことを意識する人はほとんどいませんが、整数と浮動小数点はそのままでは加算できないので、コンパイラやインタプリタは加算の前に変換を行う必要があります。</p>
+
+<p>つまりこの場合は 1 + 1.5は、1.0 + 1.5と変換され、2.5という結果が得られます。</p>
+
+<p>このような自動変換のための複雑なルールは、必然的にこれらの言語の仕様や実装に含まれることになります。</p>
+
+<h3 id="2暗黙の型変換を行わない言語">
+<a class="anchor" href="#2%E6%9A%97%E9%BB%99%E3%81%AE%E5%9E%8B%E5%A4%89%E6%8F%9B%E3%82%92%E8%A1%8C%E3%82%8F%E3%81%AA%E3%81%84%E8%A8%80%E8%AA%9E" aria-hidden="true"><span class="octicon octicon-link"></span></a>2:暗黙の型変換を行わない言語</h3>
+
+<p>この陣営はAdaやMLなど非常に”厳格”な静的型付けの言語が属しています。</p>
+
+<p>このような言語では、全ての変換はプログラマから明示的に指定される必要があります。したがって、式<code class="highlighter-rouge">1 + 1.5</code>はAdaとMLのいずれでもコンパイルエラーとなります。</p>
+
+<p>代わりに、<code class="highlighter-rouge">real(1) + 1.5</code>と書いて、加算を処理する前に明示的に整数である1を浮動小数点に変換する必要があります。</p>
+
+<p>しかし、常に明示的な変換をする必要があるのは不便なので、例えばAdaでさえも、整数リテラルは自動で期待される整数型に昇格し、また浮動小数のリテラルも自動で同じように適切な浮動小数の型に昇格します。</p>
+
+<h4 id="juliaの暗黙の型変換">
+<a class="anchor" href="#julia%E3%81%AE%E6%9A%97%E9%BB%99%E3%81%AE%E5%9E%8B%E5%A4%89%E6%8F%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Juliaの暗黙の型変換</h4>
+
+<p><strong>ある意味では</strong>、Juliaは「暗黙の型変換を行わない」陣営に属します。</p>
+
+<p>Juliaの数学演算子は特別な構文(訳注:中置構文)を持つ関数にすぎず、演算子に限って特殊な処理が行われることで、<strong>被演算子がが自動的に変換</strong>されることはないからです。</p>
+
+<p>しかし、数学的な演算子を多様な型が混在する引数に適用する、という状況は、多重ディスパッチの一つの例に過ぎません。</p>
+
+<p>そのため、Juliaのシステムを暗黙の型変換のような機構に生かすことができます。</p>
+
+<h4 id="juliaの異なる型同士の演算の実装">
+<a class="anchor" href="#julia%E3%81%AE%E7%95%B0%E3%81%AA%E3%82%8B%E5%9E%8B%E5%90%8C%E5%A3%AB%E3%81%AE%E6%BC%94%E7%AE%97%E3%81%AE%E5%AE%9F%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>Juliaの異なる型同士の演算の実装</h4>
+
+<p>Juliaは、ある被演算子の型の組み合わせに関して、特定の実装が存在しない場合呼び出されるルールがあります。</p>
+
+<p>このルールは全ての被演算子の種類の組み合わせをカバーしていて、これによって被演算子を共通の型に昇格させる処理を行うことができます。</p>
+
+<p>従って、これを用いて同じ型に変換した被演算子に対して、演算子を呼び出します。</p>
+
+<p>また、ユーザー定義の型については、</p>
+
+<ul>
+  <li>他の型との変換方法を定義し、</li>
+  <li>他の型と混合したときにどの型に昇格するかを定義する</li>
+</ul>
+
+<p>ことで、簡単にこのシステムを利用することができます。</p>
+
+<p>これについては、のちのpromotionの項目で説明します。</p>
+
+<h2 id="conversion">
+<a class="anchor" href="#conversion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conversion</h2>
+
+<p>ある型Tの値を取得する標準的な方法は、その型のコンストラクタ<code class="highlighter-rouge">T(x)</code>を呼び出すことです。</p>
+
+<p>しかし、プログラマーの明確な要求を必要とせず、値を他の型から変換したほうが便利なケースもあります。</p>
+
+<p>例えば、値を配列に代入するときです。</p>
+
+<p><code class="highlighter-rouge">Vector{Float64}</code>の配列Aがあったとき, <code class="highlighter-rouge">A[1] = 2</code>という式は、2を自動的に<code class="highlighter-rouge">Int</code>から<code class="highlighter-rouge">Float64</code>に変換されることで動作します。</p>
+
+<p>これは<code class="highlighter-rouge">convert</code>関数によって行われます。</p>
+
+<h4 id="convert関数">
+<a class="anchor" href="#convert%E9%96%A2%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>convert関数</h4>
+
+<p><code class="highlighter-rouge">convert</code>関数は通常, 2つの引数を取ります。</p>
+
+<p>第一引数は型オブジェクト、第二引数はその型に変換する値です。</p>
+
+<p>返される値は、与えられた型のインスタンスに変換された値です。</p>
+
+<p>実際の動作を確認してみます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="mi">12</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">typeof</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
+<span class="kt">Int64</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">convert</span><span class="x">(</span><span class="kt">UInt8</span><span class="x">,</span> <span class="n">x</span><span class="x">)</span>
+<span class="mh">0x0c</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">typeof</span><span class="x">(</span><span class="n">ans</span><span class="x">)</span>
+<span class="kt">UInt8</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">convert</span><span class="x">(</span><span class="kt">AbstractFloat</span><span class="x">,</span> <span class="n">x</span><span class="x">)</span>
+<span class="mf">12.0</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">typeof</span><span class="x">(</span><span class="n">ans</span><span class="x">)</span>
+<span class="kt">Float64</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="kt">Any</span><span class="x">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="x">;</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="x">]</span>
+<span class="mi">2</span><span class="n">×3</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Any</span><span class="x">,</span><span class="mi">2</span><span class="x">}</span><span class="o">:</span>
+ <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>
+ <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">convert</span><span class="x">(</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Float64</span><span class="x">},</span> <span class="n">a</span><span class="x">)</span>
+<span class="mi">2</span><span class="n">×3</span> <span class="kt">Array</span><span class="x">{</span><span class="kt">Float64</span><span class="x">,</span><span class="mi">2</span><span class="x">}</span><span class="o">:</span>
+ <span class="mf">1.0</span>  <span class="mf">2.0</span>  <span class="mf">3.0</span>
+ <span class="mf">4.0</span>  <span class="mf">5.0</span>  <span class="mf">6.0</span>
+</code></pre></div></div>
+
+<p>この時、変換が常に行えるとは限りません。</p>
+
+<p>要求された変換が未知の場合は、<code class="highlighter-rouge">convert</code>は<code class="highlighter-rouge">MethodError</code>を返します。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">convert</span><span class="x">(</span><span class="kt">AbstractFloat</span><span class="x">,</span> <span class="s">"foo"</span><span class="x">)</span>
+<span class="n">ERROR</span><span class="o">:</span> <span class="kt">MethodError</span><span class="o">:</span> <span class="n">Cannot</span> <span class="sb">`convert`</span> <span class="n">an</span> <span class="n">object</span> <span class="n">of</span> <span class="n">type</span> <span class="kt">String</span> <span class="n">to</span> <span class="n">an</span> <span class="n">object</span> <span class="n">of</span> <span class="n">type</span> <span class="kt">AbstractFloat</span>
+<span class="x">[</span><span class="o">...</span><span class="x">]</span>
+</code></pre></div></div>
+
+<p>また、いくつかの言語では、文字列を数値と見做したり、数値を文字列としてフォーマットすることを変換と見なすことがあります。(多くの動的言語では自動でこれが行われます)</p>
+
+<p>例えばPythonでは、次のような処理を行うことができます。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Python</span> <span class="mf">3.7.2</span> <span class="p">(</span><span class="n">v3</span><span class="mf">.7.2</span><span class="p">:</span><span class="mi">9</span><span class="n">a3ffc0492</span><span class="p">,</span> <span class="n">Dec</span> <span class="mi">24</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">02</span><span class="p">:</span><span class="mi">44</span><span class="p">:</span><span class="mi">43</span><span class="p">)</span>
+<span class="p">[</span><span class="n">Clang</span> <span class="mf">6.0</span> <span class="p">(</span><span class="n">clang</span><span class="o">-</span><span class="mf">600.0.57</span><span class="p">)]</span> <span class="n">on</span> <span class="n">darwin</span>
+<span class="n">Type</span> <span class="s">"help"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">,</span> <span class="s">"credits"</span> <span class="ow">or</span> <span class="s">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"123"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="mi">123</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">int</span><span class="s">'&gt;</span><span class="err">
+</span></code></pre></div></div>
+
+<p>しかし、Juliaではそのようなことはありません。いくつかの文字列が数値と見なすことができても、ほとんどの文字列は数値の表現として適切ではなく、文字列全体の集合のうち、非常に限られた部分集合のみが数値の表現として有効です。</p>
+
+<p>ですから、</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"123"</span>
+<span class="s">"123"</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">convert</span><span class="x">(</span><span class="kt">Int</span><span class="x">,</span> <span class="n">s</span><span class="x">)</span>
+<span class="n">ERROR</span><span class="o">:</span> <span class="kt">MethodError</span><span class="o">:</span> <span class="n">Cannot</span> <span class="sb">`convert`</span> <span class="n">an</span> <span class="n">object</span> <span class="n">of</span> <span class="n">type</span> <span class="kt">String</span> <span class="n">to</span> <span class="n">an</span> <span class="n">object</span> <span class="n">of</span> <span class="n">type</span> <span class="kt">Int64</span>
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="o">:</span>
+  <span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">T</span><span class="x">},</span> <span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="n">T</span><span class="o">&lt;:</span><span class="kt">Number</span> <span class="n">at</span> <span class="n">number</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">6</span>
+  <span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">T</span><span class="x">},</span> <span class="o">::</span><span class="kt">Number</span><span class="x">)</span> <span class="k">where</span> <span class="n">T</span><span class="o">&lt;:</span><span class="kt">Number</span> <span class="n">at</span> <span class="n">number</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">7</span>
+  <span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">T</span><span class="x">},</span> <span class="o">::</span><span class="kt">Ptr</span><span class="x">)</span> <span class="k">where</span> <span class="n">T</span><span class="o">&lt;:</span><span class="kt">Integer</span> <span class="n">at</span> <span class="n">pointer</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">23</span>
+  <span class="o">...</span>
+<span class="n">Stacktrace</span><span class="o">:</span>
+ <span class="x">[</span><span class="mi">1</span><span class="x">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span> <span class="n">at</span> <span class="n">REPL</span><span class="x">[</span><span class="mi">2</span><span class="x">]</span><span class="o">:</span><span class="mi">1</span>
+</code></pre></div></div>
+
+<p>となります。</p>
+
+<p>そのためJuliaでは、専用の関数<code class="highlighter-rouge">parse</code>を使って明示的この操作をする必要があります。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">parse</span><span class="x">(</span><span class="kt">Int</span><span class="x">,</span> <span class="n">s</span><span class="x">)</span>
+<span class="mi">123</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">typeof</span><span class="x">(</span><span class="n">ans</span><span class="x">)</span>
+<span class="kt">Int64</span>
+</code></pre></div></div>
+
+<h3 id="いつconvertは呼び出されるのか">
+<a class="anchor" href="#%E3%81%84%E3%81%A4convert%E3%81%AF%E5%91%BC%E3%81%B3%E5%87%BA%E3%81%95%E3%82%8C%E3%82%8B%E3%81%AE%E3%81%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>いつconvertは呼び出されるのか</h3>
+
+<p><code class="highlighter-rouge">convert</code>は次のような状況で呼び出されます。</p>
+
+<ul>
+  <li>配列に代入するとき(要素の型に)</li>
+  <li>オブジェクトのフィールドに代入するとき(そのフィールドの宣言された型に)</li>
+  <li>オブジェクトを<code class="highlighter-rouge">new</code>で構築するとき(宣言されたフィールドの型に). <br>
+(注:<code class="highlighter-rouge">new</code>は内部コンストラクタメソッドでアクセスできる特殊な関数で、これを用いることで構造体を生成できます。)</li>
+  <li>変数の宣言時に型を指定したとき(その型に)
+(例:<code class="highlighter-rouge">local x. :: T</code>)</li>
+  <li>帰り値の型が宣言されている関数が、値を返すとき(その型に)</li>
+  <li>
+<code class="highlighter-rouge">ccall</code>に値を渡すとき(対応する引数の型に)</li>
+</ul>
+
+<h3 id="conversion-vs-construction">
+<a class="anchor" href="#conversion-vs-construction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conversion vs. Construction</h3>
+
+<p>さて、<code class="highlighter-rouge">convert(T, x)</code>の動作は、<code class="highlighter-rouge">T(x)</code>とほぼ同じように見えます。</p>
+
+<p>実際、通常はそうですが、意味合いは大きく異なります。</p>
+
+<p>まず、<code class="highlighter-rouge">convert</code>は多くの場合、暗黙のうちに呼び出されるので、実行するケースは安全かつ特殊な動作が予見されないときに限られます。</p>
+
+<p>また、<code class="highlighter-rouge">convert</code>は基本的に同じ種類のものを表す型の間でのみ変換します。(例えば、同じ数値の異なる表現など。)</p>
+
+<p>以下に、コンストラクタと<code class="highlighter-rouge">convert</code>が異なるケースを、4種類ほど示します。</p>
+
+<h4 id="引数に関係ない型のコンストラクタ">
+<a class="anchor" href="#%E5%BC%95%E6%95%B0%E3%81%AB%E9%96%A2%E4%BF%82%E3%81%AA%E3%81%84%E5%9E%8B%E3%81%AE%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF" aria-hidden="true"><span class="octicon octicon-link"></span></a>引数に関係ない型のコンストラクタ</h4>
+
+<p>コンストラクタの中には、「変換」という概念を表さないものもあります。</p>
+
+<p>例えば、2秒のタイマーを生成するコード、<code class="highlighter-rouge">Timer(2)</code>は整数をタイマーに”変換”しているわけではありません。</p>
+
+<h4 id="mutableなコレクション">
+<a class="anchor" href="#mutable%E3%81%AA%E3%82%B3%E3%83%AC%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3" aria-hidden="true"><span class="octicon octicon-link"></span></a>mutableなコレクション</h4>
+
+<p><code class="highlighter-rouge">convert(T, x)</code>は、<code class="highlighter-rouge">x</code>がすでに<code class="highlighter-rouge">T</code>であれば、元の<code class="highlighter-rouge">x</code>を返すように動作します。</p>
+
+<p>しかし、Tがmutableなコレクションであるとき、<code class="highlighter-rouge">x</code>から要素をコピーして,<code class="highlighter-rouge"> T(x)</code>は常に新しいコレクションを作ります。</p>
+
+<p>実際に確かめてみると、確かに<code class="highlighter-rouge">convert</code>は同じオブジェクトを返していますが、<code class="highlighter-rouge">T(x)</code>は異なるオブジェクトを返していることがわかります。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">objectid</span><span class="x">(</span><span class="n">A</span><span class="x">)</span>
+<span class="mh">0x6fc8a9e14ca98c31</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">objectid</span><span class="x">(</span><span class="n">convert</span><span class="x">(</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">},</span> <span class="n">A</span><span class="x">))</span>
+<span class="mh">0x6fc8a9e14ca98c31</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">objectid</span><span class="x">(</span><span class="kt">Array</span><span class="x">{</span><span class="kt">Int64</span><span class="x">}(</span><span class="n">A</span><span class="x">))</span>
+<span class="mh">0xbff8577572344790</span>
+</code></pre></div></div>
+
+<h4 id="ラッパー型">
+<a class="anchor" href="#%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E5%9E%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>ラッパー型</h4>
+
+<p>値を”ラップする”ような型では、コンストラクタは引数がすでにその型であったとしても、新しいオブジェクトでラップします。例えば、<code class="highlighter-rouge">Some(x)</code>という値が存在するかどうかを(結果が<code class="highlighter-rouge">Some</code>か<code class="highlighter-rouge">nothing</code>かで)示す型があったとします。</p>
+
+<p>このとき, <code class="highlighter-rouge">x = Some(y)</code>であるような<code class="highlighter-rouge">x</code>であろうと、<code class="highlighter-rouge">Some(x)</code>は、二重にラップした結果、つまり<code class="highlighter-rouge">Some(Some(y))</code>を返します。しかし、<code class="highlighter-rouge">convert(Some, x)</code>は単に<code class="highlighter-rouge">x</code>を返します。なぜなら、<code class="highlighter-rouge">x</code>はすでに<code class="highlighter-rouge">Some</code>であったからです。</p>
+
+<h4 id="自身の型を返さないコンストラクタ">
+<a class="anchor" href="#%E8%87%AA%E8%BA%AB%E3%81%AE%E5%9E%8B%E3%82%92%E8%BF%94%E3%81%95%E3%81%AA%E3%81%84%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF" aria-hidden="true"><span class="octicon octicon-link"></span></a>自身の型を返さないコンストラクタ</h4>
+
+<p>非常に稀ですが、<code class="highlighter-rouge">T(x)</code>が型<code class="highlighter-rouge">T</code>の値を返さないことがあります。</p>
+
+<p>(実際の実装は異なりますが、例えば<code class="highlighter-rouge">Transpose(Transpose(x)) == x</code>というような対合性がをもつ状況など)</p>
+
+<p>このような時でも、<code class="highlighter-rouge">convert(T, x)</code>は常に型<code class="highlighter-rouge">T</code>の値を返しますから、結果が異なるようになります。</p>
+
+<h3 id="新しい変換を定義する">
+<a class="anchor" href="#%E6%96%B0%E3%81%97%E3%81%84%E5%A4%89%E6%8F%9B%E3%82%92%E5%AE%9A%E7%BE%A9%E3%81%99%E3%82%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>新しい変換を定義する</h3>
+
+<p>新しい型を定義するとき、最初はその型を生成する方法をコンストラクタとして定義すべきです。</p>
+
+<p>暗黙の変換が有用であることが明らかになり、コンストラクタが「安全に」使用できる時は<code class="highlighter-rouge">convert</code>を追加しても問題ありません。</p>
+
+<p>これらのメソッドは、適切なコンストラクタを呼び出すだけなので、通常は非常に単純で、以下のようになります。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">MyType</span><span class="x">},</span> <span class="n">x</span><span class="x">)</span> <span class="o">=</span> <span class="n">MyType</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>第一引数はシングルトン型の<code class="highlighter-rouge">Type{MyType}</code>です。</p>
+
+<p>シングルトン型は抽象型の一種で、<code class="highlighter-rouge">Type{T}</code>のインスタンスは、オブジェクト<code class="highlighter-rouge">T</code>のみです。従って、この関数は、第一引数が<code class="highlighter-rouge">MyType</code>の場合のみ動作します。</p>
+
+<p>従って、第一引数の値は明らかなので、引数を受け取る必要はなく、引数名が省略された記法が用いられています。</p>
+
+<p>また、これを用いてすでに引数が型<code class="highlighter-rouge">T</code>である時の処理も実装できます。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">T</span><span class="x">},</span> <span class="n">x</span><span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span><span class="o">&lt;:</span><span class="kt">Number</span><span class="x">}</span> <span class="o">=</span> <span class="n">x</span>
+</code></pre></div></div>
+
+<h1 id="promotion">
+<a class="anchor" href="#promotion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Promotion</h1>
+
+<p>昇格(Promote)とは、さまざまな型の値を共通の型に変換することを指します。</p>
+
+<p>厳密には成り立たないこともありますが、一般的には、値が変換される共通の型が元の値のすべてを忠実に表現することが想定されています。</p>
+
+<p>つまり、値が「より大きな」つまり入力された全ての値を単一の共通型で表現できる型に変換されます。</p>
+
+<p>これが、「昇格(Promote)」という言葉が用いられる由来です。</p>
+
+<p>しかし、これをオブジェクト思考における(構造的な)親タイプやJuliaの型システムにおける抽象型の親タイプの概念と混同しないよう注意してください。</p>
+
+<p>昇格は型の階層とは関係なく、表現の変換にのみ関連する概念です。例えば、全ての<code class="highlighter-rouge">Int32</code>の値は、実質的には<code class="highlighter-rouge">Float64</code>での表現に変換できますが、<code class="highlighter-rouge">Int32</code>は<code class="highlighter-rouge">Float64</code>のサブタイプではありません。</p>
+
+<p>さて、Juliaは「より大きな」型に昇格させるため、<code class="highlighter-rouge">promote</code>関数を用います。</p>
+
+<p>これは、任意の引数をとって、共通の型に変換されたタプルを返すような関数です。</p>
+
+<p><code class="highlighter-rouge">promote</code>は、もしも昇格が不可能な場合は例外を発生させます。</p>
+
+<p>この最も一般的な使用例は、数値の引数を昇格させる時です。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">julia</span><span class="o">&gt;</span> <span class="n">promote</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span> <span class="mf">2.5</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">1.0</span><span class="x">,</span> <span class="mf">2.5</span><span class="x">)</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">promote</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span> <span class="mf">2.5</span><span class="x">,</span> <span class="mi">3</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">1.0</span><span class="x">,</span> <span class="mf">2.5</span><span class="x">,</span> <span class="mf">3.0</span><span class="x">)</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">promote</span><span class="x">(</span><span class="mi">2</span><span class="x">,</span> <span class="mi">3</span><span class="o">//</span><span class="mi">4</span><span class="x">)</span>
+<span class="x">(</span><span class="mi">2</span><span class="o">//</span><span class="mi">1</span><span class="x">,</span> <span class="mi">3</span><span class="o">//</span><span class="mi">4</span><span class="x">)</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">promote</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span> <span class="mf">2.5</span><span class="x">,</span> <span class="mi">3</span><span class="x">,</span> <span class="mi">3</span><span class="o">//</span><span class="mi">4</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">1.0</span><span class="x">,</span> <span class="mf">2.5</span><span class="x">,</span> <span class="mf">3.0</span><span class="x">,</span> <span class="mf">0.75</span><span class="x">)</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">promote</span><span class="x">(</span><span class="mf">1.5</span><span class="x">,</span> <span class="nb">im</span><span class="x">)</span>
+<span class="x">(</span><span class="mf">1.5</span> <span class="o">+</span> <span class="mf">0.0</span><span class="nb">im</span><span class="x">,</span> <span class="mf">0.0</span> <span class="o">+</span> <span class="mf">1.0</span><span class="nb">im</span><span class="x">)</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">promote</span><span class="x">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="nb">im</span><span class="x">,</span> <span class="mi">3</span><span class="o">//</span><span class="mi">4</span><span class="x">)</span>
+<span class="x">(</span><span class="mi">1</span><span class="o">//</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">//</span><span class="mi">1</span><span class="o">*</span><span class="nb">im</span><span class="x">,</span> <span class="mi">3</span><span class="o">//</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">0</span><span class="o">//</span><span class="mi">1</span><span class="o">*</span><span class="nb">im</span> 
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>浮動小数点数は、引数の浮動小数点数型の中で最大のものに昇格します。</p>
+  </li>
+  <li>
+    <p>整数はネイティブマシンのワードサイズと引数の整数型の最大値のどちらか大きい方に昇格します。</p>
+  </li>
+  <li>
+    <p>整数と浮動小数点数がいずれも引数に含まれている場合、全ての値を格納できる大きさの浮動小数点数に昇格します。</p>
+  </li>
+  <li>整数と有理数の場合は有理数に、有理数と浮動小数点数の場合は、浮動小数点数に昇格します。</li>
+  <li>実数値と複素数値が混ざった場合は、適切な種類の複素数型に昇格します。</li>
+</ul>
+
+<h1 id="promotion-rulesの定義">
+<a class="anchor" href="#promotion-rules%E3%81%AE%E5%AE%9A%E7%BE%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Promotion Rulesの定義</h1>
+
+<p>さて、この昇格を制御するにあたっては、原理的には<code class="highlighter-rouge">promote</code>関数を直接定義することでも実現できますが、</p>
+
+<p>その場合多くの引数の型に対応した冗長な定義が必要になります。</p>
+
+<p>そのため、<code class="highlighter-rouge">promote</code>の定義は<code class="highlighter-rouge">promote_rule</code>という補助的な関数で定義することが可能となっています。</p>
+
+<p><code class="highlighter-rouge">promote_rule</code>関数は、型オブジェクトのペアを受け取り、それら二つの型が与えられた時に昇格する型を返すような関数です。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">promote_rule</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="kt">Float64</span><span class="x">},</span> <span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="kt">Float32</span><span class="x">})</span> <span class="o">=</span> <span class="kt">Float64</span>
+</code></pre></div></div>
+
+<p>また、返す型オブジェクトは、必ずしも引数の型に含まれている必要はありません。</p>
+
+<p>例えば、以下に示す昇格ルールは、どちらもJuliaの標準ライブラリに存在する定義です。</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">promote_rule</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="kt">UInt8</span><span class="x">},</span> <span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="kt">Int8</span><span class="x">})</span> <span class="o">=</span> <span class="kt">Int</span>
+<span class="n">promote_rule</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="kt">BigInt</span><span class="x">},</span> <span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="kt">Int8</span><span class="x">})</span> <span class="o">=</span> <span class="kt">BigInt</span>
+</code></pre></div></div>
+
+<p>また、<code class="highlighter-rouge">promote_rule(::Type{A}, ::Type{B})</code> と <code class="highlighter-rouge">promote_rule(::Type{B}, ::Type{A}</code>の両方を定義する必要がないことに注意してください。(<code class="highlighter-rouge">promote</code>は対称性を前提として実装されています)</p>
+
+<p>実際の実装は<a href="https://github.com/JuliaLang/julia/blob/master/base/promotion.jl">promotion.jl</a>で見ることができますが、簡潔に処理の流れを記すと、</p>
+
+<ol>
+  <li>ユーザーによって(もしくはpromotion.jl内で)定義された<code class="highlighter-rouge">promote_rule</code>を用いて、<code class="highlighter-rouge">promote_type</code>関数が昇格させる型を返す(この際対称性の処理が行われる)</li>
+  <li>
+<code class="highlighter-rouge">promote_type</code>が返した値に基づいて<code class="highlighter-rouge">_promote</code>で値がconvert(昇格)される</li>
+  <li>
+<code class="highlighter-rouge">promote</code>でエラーチェック(きちんと昇格されているかチェック)が行われて値を返す</li>
+</ol>
+
+<p>関連する処理のみを抜き出したものを掲載します。(簡単のため、 異なる型の2引数の場合のみです)</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># @_inline_metaはどうやら@inlineと同じ働きをするようです(確信はないので、詳しい方は教えてくださると嬉しいです)</span>
+
+<span class="c"># 1</span>
+<span class="k">function</span><span class="nf"> promote_type</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">T</span><span class="x">},</span> <span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">S</span><span class="x">})</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span><span class="x">,</span><span class="n">S</span><span class="x">}</span>
+    <span class="nd">@_inline_meta</span>
+    <span class="c"># Try promote_rule in both orders. Typically only one is defined,</span>
+    <span class="c"># and there is a fallback returning Bottom below, so the common case is</span>
+    <span class="c">#   promote_type(T, S) =&gt;</span>
+    <span class="c">#   promote_result(T, S, result, Bottom) =&gt;</span>
+    <span class="c">#   typejoin(result, Bottom) =&gt; result</span>
+    <span class="n">promote_result</span><span class="x">(</span><span class="n">T</span><span class="x">,</span> <span class="n">S</span><span class="x">,</span> <span class="n">promote_rule</span><span class="x">(</span><span class="n">T</span><span class="x">,</span><span class="n">S</span><span class="x">),</span> <span class="n">promote_rule</span><span class="x">(</span><span class="n">S</span><span class="x">,</span><span class="n">T</span><span class="x">))</span>
+<span class="k">end</span>
+
+
+<span class="c">#2</span>
+<span class="k">function</span><span class="nf"> _promote</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="n">T</span><span class="x">,</span> <span class="n">y</span><span class="o">::</span><span class="n">S</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span><span class="x">,</span><span class="n">S</span><span class="x">}</span>
+    <span class="nd">@_inline_meta</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">promote_type</span><span class="x">(</span><span class="n">T</span><span class="x">,</span> <span class="n">S</span><span class="x">)</span>
+    <span class="k">return</span> <span class="x">(</span><span class="n">convert</span><span class="x">(</span><span class="n">R</span><span class="x">,</span> <span class="n">x</span><span class="x">),</span> <span class="n">convert</span><span class="x">(</span><span class="n">R</span><span class="x">,</span> <span class="n">y</span><span class="x">))</span>
+<span class="k">end</span>
+
+<span class="c">#3</span>
+<span class="k">function</span><span class="nf"> promote</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="n">y</span><span class="x">)</span>
+    <span class="nd">@_inline_meta</span>
+    <span class="n">px</span><span class="x">,</span> <span class="n">py</span> <span class="o">=</span> <span class="n">_promote</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="n">y</span><span class="x">)</span>
+    <span class="n">not_sametype</span><span class="x">((</span><span class="n">x</span><span class="x">,</span><span class="n">y</span><span class="x">),</span> <span class="x">(</span><span class="n">px</span><span class="x">,</span><span class="n">py</span><span class="x">))</span>
+    <span class="n">px</span><span class="x">,</span> <span class="n">py</span>
+<span class="k">end</span>
+
+<span class="n">not_sametype</span><span class="x">(</span><span class="n">x</span><span class="o">::</span><span class="n">T</span><span class="x">,</span> <span class="n">y</span><span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span><span class="x">}</span> <span class="o">=</span> <span class="n">sametype_error</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
+
+<span class="n">not_sametype</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="n">y</span><span class="x">)</span> <span class="o">=</span> <span class="nb">nothing</span>
+
+<span class="k">function</span><span class="nf"> sametype_error</span><span class="x">(</span><span class="n">input</span><span class="x">)</span>
+    <span class="nd">@_noinline_meta</span>
+    <span class="n">error</span><span class="x">(</span><span class="s">"promotion of types "</span><span class="x">,</span>
+          <span class="n">join</span><span class="x">(</span><span class="n">map</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">string</span><span class="x">(</span><span class="n">typeof</span><span class="x">(</span><span class="n">x</span><span class="x">)),</span> <span class="n">input</span><span class="x">),</span> <span class="s">", "</span><span class="x">,</span> <span class="s">" and "</span><span class="x">),</span>
+          <span class="s">" failed to change any arguments"</span><span class="x">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h1 id="実装">
+<a class="anchor" href="#%E5%AE%9F%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>実装</h1>
+
+<p>さて、Juliaにおけるpromotionを完全に理解したところで、今回のケースで実際に使ってみようと思います。</p>
+
+<p><code class="highlighter-rouge">variable</code>は実数との演算を行うわけですから,設定すべき<code class="highlighter-rouge">promote_rule</code>は、</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">promote_rule</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="o">&lt;:</span><span class="kt">Real</span><span class="x">},</span> <span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">Variable</span><span class="x">})</span> <span class="o">=</span> <span class="n">Variable</span>
+</code></pre></div></div>
+
+<p>であり、これらのconvert方法を用意してやればいいです。(すでに内部コンストラクタメソッドが定義されています。)</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">Variable</span><span class="x">},</span> <span class="n">x</span><span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Real</span><span class="x">}</span> <span class="o">=</span> <span class="n">Variable</span><span class="x">(</span><span class="n">x</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>こうすることで、今まで</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Base</span><span class="o">.:+</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="n">Variable</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="n">Variable</span><span class="x">)</span> <span class="o">=</span> <span class="n">_Add</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+<span class="n">Base</span><span class="o">.:+</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="n">Variable</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Real</span><span class="x">}</span> <span class="o">=</span> <span class="n">_Add</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">Variable</span><span class="x">(</span><span class="n">x2</span><span class="x">))</span>
+<span class="n">Base</span><span class="o">.:+</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="n">T</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="n">Variable</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Real</span><span class="x">}</span> <span class="o">=</span> <span class="n">_Add</span><span class="x">(</span><span class="n">Variable</span><span class="x">(</span><span class="n">x1</span><span class="x">),</span> <span class="n">x2</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>となっていたコードは、</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Base</span><span class="o">.:+</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="n">Variable</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="n">Variable</span><span class="x">)</span> <span class="o">=</span> <span class="n">_Add</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span>
+<span class="n">Base</span><span class="o">.:+</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="n">Variable</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Real</span><span class="x">}</span> <span class="o">=</span> <span class="n">_Add</span><span class="x">(</span><span class="n">promote</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span><span class="n">x2</span><span class="x">)</span><span class="o">...</span><span class="x">)</span>
+<span class="n">Base</span><span class="o">.:+</span><span class="x">(</span><span class="n">x1</span><span class="o">::</span><span class="n">T</span><span class="x">,</span> <span class="n">x2</span><span class="o">::</span><span class="n">Variable</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Real</span><span class="x">}</span> <span class="o">=</span> <span class="n">_Add</span><span class="x">(</span><span class="n">promote</span><span class="x">(</span><span class="n">x1</span><span class="x">,</span> <span class="n">x2</span><span class="x">)</span><span class="o">...</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>となりました。</p>
+
+<p>(promotionを使ったもっといい書き方がある気がする….)</p>
+
+
+  </div><a class="u-url" href="/my-website/julialang/2021/03/17/promote-type.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/my-website/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/my-website/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/my-website/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/abap34" title="abap34"><svg class="svg-icon grey"><use xlink:href="/my-website/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/abap34" title="abap34"><svg class="svg-icon grey"><use xlink:href="/my-website/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
