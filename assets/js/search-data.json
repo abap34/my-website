@@ -4,9 +4,9 @@
         "post0": {
             "title": "Juliaで画像をドット絵化！",
             "content": "今回は, Juliaを使って画像をドット絵に変換していきたいと思います。 . ドット絵は少ない色とピクセルでイラストを表現する技法です。 . そのため、リアルなドット絵に変換するには、単に画像を小さくリサイズするだけでなく、色を削減する必要があります。 . となると「代表的な色」で多くの色を表現するわけですが、ここではその「代表的な色」を決めるためにk-meansを用います。 . k-meansそのものについては https://qiita.com/g-k/items/0d5d22a12a4507ecbf11　などを参照してください。 . Juliaでは、Clustering.jlのkmeans()を用いることなどで利用できます。 . 実装に関してですが、特別難しいことはしておらず、 単に . resize =&gt; k-meansによる減色 . を行っているだけです。 . 　 . 注意点として、Images.jlなどの画像表現は通常の三次元配列などではなく、RGBを表現するための(他言語と比べて)特殊な型を用いているので、それらと変換するような関数 img_to_arr を用いました。 . (個人的に気持ち悪いな〜と思っているのでもしかしたら間違っているかもしれないです.その際はTwitterなどに連絡をくださると嬉しいです。。。。) . using Images using Clustering using Random using Plots . function img_to_arr(img) # imgを通常の3次元配列に変換 return convert(Array{Float64}, channelview(img)) end . img_to_arr (generic function with 1 method) . function plot_img(img) # 3次元配列をplot plot(colorview(RGB, img)) end . plot_img (generic function with 1 method) . # 画像読み込み img = load(&quot;img.jpg&quot;); . size(img) . (198, 198) . img . using Clustering . function pixel(img; n_color=10, w=64, h=64) # resize img = imresize(img, (w, h)) # 画像を3次元配列に変換したのち, 3 x nの配列に変換(つまり画像内の全ての色を並べた状態) img = reshape(img_to_arr(img), (3, :)) # kmeans color_class = kmeans(img, n_color) # 各色をクラスタ中心で置き換えて減色 img = hcat((x -&gt; color_class.centers[:, x]).(color_class.assignments)...) # 元の形に戻してreturn. return reshape(img, (3, w, h)) end . pixel (generic function with 1 method) . result = pixel(img, n_color=5, w=64, h=64); . plot_img(result) . 無事にドット絵を生成できました！ . &#12362;&#12414;&#12369; . 概念 . result = pixel(img, n_color=2, w=4, h=4); . plot_img(result) .",
-            "url": "https://abap34.github.io/my-website/julialang/image/ml/2021/03/14/dot-art.html",
-            "relUrl": "/julialang/image/ml/2021/03/14/dot-art.html",
-            "date": " • Mar 14, 2021"
+            "url": "https://abap34.github.io/my-website/julialang/image/ml/2021/03/16/dot-art.html",
+            "relUrl": "/julialang/image/ml/2021/03/16/dot-art.html",
+            "date": " • Mar 16, 2021"
         }
         
     
@@ -15,9 +15,9 @@
         ,"post1": {
             "title": "JuliaでBit全探索を書く時にはdigitsを使うと便利。",
             "content": "digits&#12395;&#12388;&#12356;&#12390; . digits(a, base=b, pad=c)は、10進数の整数aをc桁のb進数に変換した配列を返します。 . 例えば, . n = 22 println(digits(n, base=2, pad=6)) . [0, 1, 1, 0, 1, 0] . $22 = 10110_2$ なので、正しいですね！ 桁数が足りない場合は0で埋められます。 . Juliaでは、これを利用して、Bit全探索を用意に実装できます。 . (Bit全探索については、https://algo-logic.info/rec-bit-search/ がわかりやすいのでおすすめです) . 具体的には以下のようなコードです。 . N = 4 for i in 0:2^N - 1 pettern = digits(i, base=2, pad=N) println(pettern) end . [0, 0, 0, 0] [1, 0, 0, 0] [0, 1, 0, 0] [1, 1, 0, 0] [0, 0, 1, 0] [1, 0, 1, 0] [0, 1, 1, 0] [1, 1, 1, 0] [0, 0, 0, 1] [1, 0, 0, 1] [0, 1, 0, 1] [1, 1, 0, 1] [0, 0, 1, 1] [1, 0, 1, 1] [0, 1, 1, 1] [1, 1, 1, 1] . あとはこの各パターンについて . 1 -&gt; True, 0 -&gt; False . と見做して処理を行えば良いです。具体的に問題を解いてみます。 . &#12288;&#37096;&#20998;&#21644;&#21839;&#38988; . 部分和問題とは、 n 個の整数 $a_1,...,a_n$ からなる配列Aと, . 整数 S が与えられた時、適切な部分集合を選んで、総和をSとすることができるかを判定する問題です。 . 例えば, . A = [1, 2, 4, 5] S = 8 . の時, . $A_1 + A_2 + A_3 = 8$ なので、適切な部分集合を選んで総和をSとすることができました。 . nが小さい時は、bit全探索を用いることで実用的な速度で解くことができます。 . この記事で最初に解説したように, digitsを用いて全てのパターンを列挙します。 . N = 4 for i in 0:2^N - 1 pettern = digits(i, base=2, pad=N) println(pettern) end . [0, 0, 0, 0] [1, 0, 0, 0] [0, 1, 0, 0] [1, 1, 0, 0] [0, 0, 1, 0] [1, 0, 1, 0] [0, 1, 1, 0] [1, 1, 1, 0] [0, 0, 0, 1] [1, 0, 0, 1] [0, 1, 0, 1] [1, 1, 0, 1] [0, 0, 1, 1] [1, 0, 1, 1] [0, 1, 1, 1] [1, 1, 1, 1] . ここで0を false (つまりそれを選択しない), . 1をtrue(それを選択する)とみなした時、 . そのパターンを表す配列を $P$ とすると、選択した要素の和は, . $$ dot(A, P) = (A_1 * P_1 + A_2 * P_2 + ... + A_N * P_N) $$なので、 . $dot(A, P)$ と表すことができます。 . したがって、部分和問題は次のようなコードで解けます。 . とてもシンプルですね！ . using LinearAlgebra function solve(N, A, S) for i in 0:2^N - 1 P = digits(i, base=2, pad=N) if dot(A, P) == S return &quot;OK, P = $P&quot; end end return &quot;NO&quot; end . solve (generic function with 1 method) . N = 4 A = rand(1:10, N) S = rand(1:40) @show N @show A @show S solve(N, A, S) . N = 4 A = [4, 5, 8, 8] S = 14 . &#34;NO&#34; . 計算量は、内積に$O(N)$かかり、パターンの数が$2^N$個あることから、 . $O(N2^N)$ . です。 . そのため、Nが大きくなると計算時間がすごいことになります。実験してみます。 . using Plots; plotly() using BenchmarkTools . ┌ Info: For saving to png with the Plotly backend ORCA has to be installed. └ @ Plots /Users/yuchi_ymgc/.julia/packages/Plots/8GUYs/src/backends.jl:363 . # 最悪の計算量が知りたいので、絶対に「&quot;No&quot;」になるようなケースについて調べます。 # Aは全て0, 和が1とします。 function benchmark(N) times = zeros(N) S = 1 for i in 1:N A = zeros(Int, i) benchmark = @benchmark solve($i, $A, $S) times[i] = mean(benchmark.times) end return times end . benchmark (generic function with 1 method) . result = benchmark(16) . 16-element Array{Float64,1}: 138.09468483206933 280.2775378923767 559.1062071428572 1150.0704342105266 2360.3050700000003 4863.900942857144 9812.481966666666 19957.0549 41551.107 86067.5444 171960.281 354894.3546 848562.7232951632 1.774057147950089e6 3.5106584654929577e6 6.350254478371501e6 . p = plot(result, yaxis=:log) xlabel!(&quot;N&quot;) ylabel!(&quot;Time [ns]&quot;) . &lt;!DOCTYPE html&gt; Plots.jl . . お手本のような指数関数ありがとうございます。Nが大きくなるにつれ計算量も爆発的に大きくなるので、使う時は気をつけましょう。 . clipboard(string(sprint(show, &quot;text/html&quot;, p))) .",
-            "url": "https://abap34.github.io/my-website/atcoder/2021/03/14/digits.html",
-            "relUrl": "/atcoder/2021/03/14/digits.html",
-            "date": " • Mar 14, 2021"
+            "url": "https://abap34.github.io/my-website/atcoder/2021/03/16/digits.html",
+            "relUrl": "/atcoder/2021/03/16/digits.html",
+            "date": " • Mar 16, 2021"
         }
         
     
@@ -26,9 +26,9 @@
         ,"post2": {
             "title": "Juliaでカラフルに点滅するクリスマスツリーを描こう",
             "content": "元ネタは特にないですが、Juliaでカラフルなクリスマスツリーを描きたいと思います、他の言語での実装お待ちしています！ S = &quot; t☆ 　　　 ／＼ 　　 ／★∴ ＼ 　　 (人_人_人) 　　／∴∵★∵★∵＼ 　 (_人_人_人_人) 　 ／☆∴∵∴∵★ ∴＼ 　(_人★人☆人_ 人_) 　　　 ￣凵￣ &quot;; . とりあえずこのツリーをカラフルに点滅させます。 printstyled . printstyledは、いい感じに見た目を整えて出力できる関数です。試してみます。 printstyled(&quot;GReeeeN&quot;, color=:green) . GReeeeN . 今回は, 照明部分はランダムな色に、葉は緑、幹は赤色にしてみます function show_tree() for s in S if s in (&#39;∴&#39;, &#39;☆&#39;, &#39;∵&#39;, &#39;★&#39;, &#39;☆&#39;) printstyled(s, color=rand(1:255)) elseif s in (&#39;￣&#39;, &#39;凵&#39;, &#39;￣&#39;) printstyled(s, color=:red) else printstyled(s, color=:light_green) end end end . show_tree (generic function with 1 method) . show_tree() . ☆ 　　　 ／＼ 　　 ／★∴ ＼ 　　 (人_人_人) 　　／∴∵★∵★∵＼ 　 (_人_人_人_人) 　 ／☆∴∵∴∵★ ∴＼ 　(_人★人☆人_ 人_) 　　　 ￣凵￣ . さて, 点滅させるには出力を更新し続ける必要があります。 今回は出力を丸ごと消去して再度描画することで更新します。(カス実装の自覚はあるので誰かなんとかしてください) function clean(H) buf = IOBuffer() for i in 1:H+1 print(buf, &quot; x1b[2K&quot;) # clear line print(buf, &quot; x1b[999D x1b[$(1)A&quot;) # rollback end print(buf |&gt; take! |&gt; String) end . clean (generic function with 1 method) . この clean(H) で出力をH行戻すことができます。 . このコードはごまふさん(https://twitter.com/MathSorcerer) の物を拝借しました。ありがとうございます。 さて、あとはいい感じにループさせるだけです。 H = 7 for i in 1:100 show_tree() sleep(0.5) clean(H) end . 結果はぜひみなさんのREPLで試してみてください！",
-            "url": "https://abap34.github.io/my-website/julialang/%E3%83%8D%E3%82%BF/2021/03/14/christmas-tree.html",
-            "relUrl": "/julialang/%E3%83%8D%E3%82%BF/2021/03/14/christmas-tree.html",
-            "date": " • Mar 14, 2021"
+            "url": "https://abap34.github.io/my-website/julialang/%E3%83%8D%E3%82%BF/2021/03/16/christmas-tree.html",
+            "relUrl": "/julialang/%E3%83%8D%E3%82%BF/2021/03/16/christmas-tree.html",
+            "date": " • Mar 16, 2021"
         }
         
     
@@ -37,9 +37,9 @@
         ,"post3": {
             "title": "Juliaで@benchmarkの結果を文字列として得る",
             "content": "using BenchmarkTools . result = @benchmark 1 + 1 println(result) . Trial(0.035 ns) . (´・ω・｀) function get_str(result::BenchmarkTools.Trial) io = IOBuffer() show(io, &quot;text/plain&quot;, result) return String(take!(io)) end result = @benchmark 1 + 1 println(get_str(result)) . BenchmarkTools.Trial: memory estimate: 0 bytes allocs estimate: 0 -- minimum time: 0.035 ns (0.00% GC) median time: 0.038 ns (0.00% GC) mean time: 0.040 ns (0.00% GC) maximum time: 15.705 ns (0.00% GC) -- samples: 10000 evals/sample: 1000 . どう考えてもスマートじゃないけど動いてるのでヨシ",
-            "url": "https://abap34.github.io/my-website/julialang/tips/2021/03/14/benchmark.html",
-            "relUrl": "/julialang/tips/2021/03/14/benchmark.html",
-            "date": " • Mar 14, 2021"
+            "url": "https://abap34.github.io/my-website/julialang/tips/2021/03/16/benchmark.html",
+            "relUrl": "/julialang/tips/2021/03/16/benchmark.html",
+            "date": " • Mar 16, 2021"
         }
         
     
@@ -48,9 +48,9 @@
         ,"post4": {
             "title": "JuliaでUnionFindを実装する",
             "content": "fieldの値が更新されているのにもかかわらず、structとなっていますが、fieldがmutableなオブジェクトであればmutable structにせずとも中身が更新できます。 また、rootは経路圧縮を、uniteは統合する処理を行う破壊的な関数なので、Juliaの慣習にしたがって!をつけています struct UnionFind par :: Array{Int, 1} size :: Array{Int, 1} UnionFind(N) = new(collect(1:N), collect(1:N)) end function root!(uf::UnionFind, x::Int) if uf.par[x] == x return x else return uf.par[x] = root(uf, uf.par[x]) end end function issame(uf::UnionFind, x::Int, y::Int) return root(uf, x) == root(uf, y) end function unite!(uf::UnionFind, x::Int, y::Int) x = root(uf, x) y = root(uf, y) (x == y) &amp;&amp; (return true) if (uf.size[x] &lt; uf.size[y]) uf.par[x] = y uf.size[y] += uf.size[x] else uf.par[y] = x uf.size[x] += uf.size[y] end return true end . unite! (generic function with 1 method) . uf = UnionFind(5) . UnionFind([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]) . unite(uf, 2, 3) unite(uf, 1, 4) unite(uf, 1, 5) . true . root(uf, 2) . 3 . [https://atcoder.jp/contests/atc001/submissions/18284457] .",
-            "url": "https://abap34.github.io/my-website/atcoder/2021/03/14/UnionFind.html",
-            "relUrl": "/atcoder/2021/03/14/UnionFind.html",
-            "date": " • Mar 14, 2021"
+            "url": "https://abap34.github.io/my-website/atcoder/2021/03/16/UnionFind.html",
+            "relUrl": "/atcoder/2021/03/16/UnionFind.html",
+            "date": " • Mar 16, 2021"
         }
         
     
@@ -59,9 +59,9 @@
         ,"post5": {
             "title": "DeepShibaの開発再開にあたって現状を確認しようと思う",
             "content": "DeepShiba&#12392;&#12399; . もともとゼロから作るDeepLearning3をJuliaに移植しよう！というところから始まった自作のDLフレームワークです。 . 現状は計算グラフの構築 + 自動微分etc.....というところまでで、まだ本丸(NNに関連する機能)は未実装です(え？) . 最近は僕がkaggleをはじめとした機械学習コンペにハマってしまった影響で開発が滞っていたのですが、再開しようかなぁという気持ちになったので、現状を確認していこうと思います。 . &#26368;&#21021;&#12398;&#26368;&#21021; . using DeepShiba . DeepShibaは、ShibaObject.Variableの型の変数を流すことで、通常のJuliaの関数を高速に微分することができます。 . f(x) = 3x^2 + 2x + 1 . f (generic function with 1 method) . この関数を微分します。 $$ f(x) = 3x^2 + 2x + 1 $$ なので、 $$ f&#39;(x) = 6x + 2 $$ です。実際に計算させてみます。 . variableを使うことでShibaObject.Variableを作ります。これは演算時に計算グラフを構築します。 . x = variable(2, name=&quot;x&quot;) x . {DeepShiba.ShibaObject.Variable}: x : data: 2 User-Defined . y = f(x) y . {DeepShiba.ShibaObject.Variable}: data: 17 creator: DeepShiba.Add . ShibaObject.Variableとの演算は, ShibaObject.Variableを返します。したがって、yもShibaObject.Variableです。 . backward!(y) x . {DeepShiba.ShibaObject.Variable}: x : data: 2 grad: 14 User-Defined . backward!(y)を使用することで、逆伝播が行われ、自動的にxの勾配が求められます。 . plot(y) . また、計算グラフの可視化機能も備えています。内部的にはgraphvizを使っています。ここでは、自動微分を利用して勾配降下法を実装してみます。 f(x) = 5x^2 + (0.2 * cos(x * 10)) x = variable(2.0, name=&quot;x&quot;) lr = 1e-3 iters = 10000 log_interval = 1000 for i in 1:iters ((i - 1) % log_interval == 0) &amp;&amp; (println(&quot;$i: $(x.data)&quot;)) y = f(x) cleargrad!(x) backward!(y) x.data -= lr * x.grad.data end . 1: 2.0 1001: 0.18954951933991088 2001: 0.18954942670340436 3001: 0.18954942670339894 4001: 0.18954942670339894 5001: 0.18954942670339894 6001: 0.18954942670339894 7001: 0.18954942670339894 8001: 0.18954942670339894 9001: 0.18954942670339894 . using Plots; plotly() . Plots.plot(-1:0.01:1, f.(-1:0.01:1)) . &lt;!DOCTYPE html&gt; Plots.jl . . 無事に最小値付近の値を求めることができました。 &#20170;&#24460;&#12398;&#20104;&#23450; . そもそもDeepShibaの開発は、broadcast周りへの対応が詰まって若干モチベが下がったとことから止まりました。 . なのでまず未完成のbroadcastの記事を完成させて、開発を再開していきたいと思います(いつまで書いてるんですか????????????) .",
-            "url": "https://abap34.github.io/my-website/ml/2021/03/14/DeepShiba_20201219.html",
-            "relUrl": "/ml/2021/03/14/DeepShiba_20201219.html",
-            "date": " • Mar 14, 2021"
+            "url": "https://abap34.github.io/my-website/ml/2021/03/16/DeepShiba_20201219.html",
+            "relUrl": "/ml/2021/03/16/DeepShiba_20201219.html",
+            "date": " • Mar 16, 2021"
         }
         
     
