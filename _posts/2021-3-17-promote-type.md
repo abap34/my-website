@@ -75,7 +75,7 @@ Juliaは、数学的な演算子の引数を共通の型に昇格するシステ
 
 
 
-#### Juliaの暗黙の型変換
+### Juliaの暗黙の型変換
 
 **ある意味では**、Juliaは「暗黙の型変換を行わない」陣営に属します。
 
@@ -85,7 +85,7 @@ Juliaの数学演算子は特別な構文(訳注:中置構文)を持つ関数に
 
 そのため、Juliaのシステムを暗黙の型変換のような機構に生かすことができます。
 
-#### Juliaの異なる型同士の演算の実装
+### Juliaの異なる型同士の演算の実装
 
 Juliaは、ある被演算子の型の組み合わせに関して、特定の実装が存在しない場合呼び出されるルールがあります。
 
@@ -306,7 +306,7 @@ convert(::Type{MyType}, x) = MyType(x)
 convert(::Type{T}, x::T) where {T<:Number} = x
 ```
 
-# Promotion
+## Promotion
 
 昇格(Promotion)とは、さまざまな型の値を共通の型に変換することを指します。
 
@@ -359,7 +359,7 @@ julia> promote(1 + 2im, 3//4)
 
 
 
-# Promotion Rulesの定義
+### Promotion Rulesの定義
 
 さて、この昇格を制御するにあたっては、原理的には`promote`関数を直接定義することでも実現できますが、
 
@@ -383,6 +383,8 @@ promote_rule(::Type{BigInt}, ::Type{Int8}) = BigInt
 ```
 
 また、`promote_rule(::Type{A}, ::Type{B})` と `promote_rule(::Type{B}, ::Type{A}`の両方を定義する必要がないことに注意してください。(`promote`は対称性を前提として実装されています)
+
+### promotion.jl
 
 実際の実装は[promotion.jl](https://github.com/JuliaLang/julia/blob/master/base/promotion.jl)で見ることができますが、簡潔に処理の流れを記すと、
 
