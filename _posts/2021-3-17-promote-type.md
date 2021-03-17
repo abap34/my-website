@@ -31,7 +31,7 @@ image: images/promote.png
 
 Juliaのドキュメントのconversion and promotionという章の日本語訳を元にしてこれらを解説し、またこれらを使った実装を示します。
 
-(以下、日本語訳。意訳・省略・補足等を多用しています。完全な翻訳はhttps://mnru.github.io/julia-doc-ja-v1.0/manual/conversion-and-promotion.html#conversion-and-promotion-1などを参照してください。)
+(以下、日本語訳。意訳・省略・補足等を多用しています。完全な翻訳は[https://mnru.github.io/julia-doc-ja-v1.0/manual/conversion-and-promotion.html#conversion-and-promotion-1](https://mnru.github.io/julia-doc-ja-v1.0/manual/conversion-and-promotion.html#conversion-and-promotion-1)などを参照してください。)
 
 # [Conversion and Promotion](https://docs.julialang.org/en/v1/manual/conversion-and-promotion/#conversion-and-promotion)
 
