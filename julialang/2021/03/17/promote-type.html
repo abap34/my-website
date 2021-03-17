@@ -145,12 +145,9 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#従来のプログラミング言語">従来のプログラミング言語</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#1-暗黙の型変換を行う言語">1: 暗黙の型変換を行う言語</a></li>
-<li class="toc-entry toc-h3"><a href="#2暗黙の型変換を行わない言語">2:暗黙の型変換を行わない言語</a>
-<ul>
-<li class="toc-entry toc-h4"><a href="#juliaの暗黙の型変換">Juliaの暗黙の型変換</a></li>
-<li class="toc-entry toc-h4"><a href="#juliaの異なる型同士の演算の実装">Juliaの異なる型同士の演算の実装</a></li>
-</ul>
-</li>
+<li class="toc-entry toc-h3"><a href="#2暗黙の型変換を行わない言語">2:暗黙の型変換を行わない言語</a></li>
+<li class="toc-entry toc-h3"><a href="#juliaの暗黙の型変換">Juliaの暗黙の型変換</a></li>
+<li class="toc-entry toc-h3"><a href="#juliaの異なる型同士の演算の実装">Juliaの異なる型同士の演算の実装</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#conversion">Conversion</a>
@@ -168,10 +165,14 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#新しい変換を定義する">新しい変換を定義する</a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h2"><a href="#promotion">Promotion</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#promotion-rulesの定義">Promotion Rulesの定義</a></li>
+<li class="toc-entry toc-h3"><a href="#promotionjl">promotion.jl</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h1"><a href="#promotion">Promotion</a></li>
-<li class="toc-entry toc-h1"><a href="#promotion-rulesの定義">Promotion Rulesの定義</a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h1"><a href="#実装">実装</a></li>
 </ul><p>先日,</p>
 
@@ -256,8 +257,8 @@ window.onload = wrap_img;
 
 <p>しかし、常に明示的な変換をする必要があるのは不便なので、例えばAdaでさえも、整数リテラルは自動で期待される整数型に昇格し、また浮動小数のリテラルも自動で同じように適切な浮動小数の型に昇格します。</p>
 
-<h4 id="juliaの暗黙の型変換">
-<a class="anchor" href="#julia%E3%81%AE%E6%9A%97%E9%BB%99%E3%81%AE%E5%9E%8B%E5%A4%89%E6%8F%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Juliaの暗黙の型変換</h4>
+<h3 id="juliaの暗黙の型変換">
+<a class="anchor" href="#julia%E3%81%AE%E6%9A%97%E9%BB%99%E3%81%AE%E5%9E%8B%E5%A4%89%E6%8F%9B" aria-hidden="true"><span class="octicon octicon-link"></span></a>Juliaの暗黙の型変換</h3>
 
 <p><strong>ある意味では</strong>、Juliaは「暗黙の型変換を行わない」陣営に属します。</p>
 
@@ -267,8 +268,8 @@ window.onload = wrap_img;
 
 <p>そのため、Juliaのシステムを暗黙の型変換のような機構に生かすことができます。</p>
 
-<h4 id="juliaの異なる型同士の演算の実装">
-<a class="anchor" href="#julia%E3%81%AE%E7%95%B0%E3%81%AA%E3%82%8B%E5%9E%8B%E5%90%8C%E5%A3%AB%E3%81%AE%E6%BC%94%E7%AE%97%E3%81%AE%E5%AE%9F%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>Juliaの異なる型同士の演算の実装</h4>
+<h3 id="juliaの異なる型同士の演算の実装">
+<a class="anchor" href="#julia%E3%81%AE%E7%95%B0%E3%81%AA%E3%82%8B%E5%9E%8B%E5%90%8C%E5%A3%AB%E3%81%AE%E6%BC%94%E7%AE%97%E3%81%AE%E5%AE%9F%E8%A3%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>Juliaの異なる型同士の演算の実装</h3>
 
 <p>Juliaは、ある被演算子の型の組み合わせに関して、特定の実装が存在しない場合呼び出されるルールがあります。</p>
 
@@ -487,8 +488,8 @@ window.onload = wrap_img;
 <div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">convert</span><span class="x">(</span><span class="o">::</span><span class="kt">Type</span><span class="x">{</span><span class="n">T</span><span class="x">},</span> <span class="n">x</span><span class="o">::</span><span class="n">T</span><span class="x">)</span> <span class="k">where</span> <span class="x">{</span><span class="n">T</span><span class="o">&lt;:</span><span class="kt">Number</span><span class="x">}</span> <span class="o">=</span> <span class="n">x</span>
 </code></pre></div></div>
 
-<h1 id="promotion">
-<a class="anchor" href="#promotion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Promotion</h1>
+<h2 id="promotion">
+<a class="anchor" href="#promotion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Promotion</h2>
 
 <p>昇格(Promotion)とは、さまざまな型の値を共通の型に変換することを指します。</p>
 
@@ -543,8 +544,8 @@ window.onload = wrap_img;
   <li>実数値と複素数値が混ざった場合は、適切な種類の複素数型に昇格します。</li>
 </ul>
 
-<h1 id="promotion-rulesの定義">
-<a class="anchor" href="#promotion-rules%E3%81%AE%E5%AE%9A%E7%BE%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Promotion Rulesの定義</h1>
+<h3 id="promotion-rulesの定義">
+<a class="anchor" href="#promotion-rules%E3%81%AE%E5%AE%9A%E7%BE%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Promotion Rulesの定義</h3>
 
 <p>さて、この昇格を制御するにあたっては、原理的には<code class="highlighter-rouge">promote</code>関数を直接定義することでも実現できますが、</p>
 
@@ -566,6 +567,9 @@ window.onload = wrap_img;
 </code></pre></div></div>
 
 <p>また、<code class="highlighter-rouge">promote_rule(::Type{A}, ::Type{B})</code> と <code class="highlighter-rouge">promote_rule(::Type{B}, ::Type{A}</code>の両方を定義する必要がないことに注意してください。(<code class="highlighter-rouge">promote</code>は対称性を前提として実装されています)</p>
+
+<h3 id="promotionjl">
+<a class="anchor" href="#promotionjl" aria-hidden="true"><span class="octicon octicon-link"></span></a>promotion.jl</h3>
 
 <p>実際の実装は<a href="https://github.com/JuliaLang/julia/blob/master/base/promotion.jl">promotion.jl</a>で見ることができますが、簡潔に処理の流れを記すと、</p>
 

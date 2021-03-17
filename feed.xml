@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://abap34.github.io/my-website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://abap34.github.io/my-website/" rel="alternate" type="text/html" /><updated>2021-03-17T07:51:21-05:00</updated><id>https://abap34.github.io/my-website/feed.xml</id><title type="html">ShibaInu-Doc</title><subtitle>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</subtitle><entry><title type="html">Juliaの型変換とpromotion(昇格)</title><link href="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html" rel="alternate" type="text/html" title="Juliaの型変換とpromotion(昇格)" /><published>2021-03-17T00:00:00-05:00</published><updated>2021-03-17T00:00:00-05:00</updated><id>https://abap34.github.io/my-website/julialang/2021/03/17/promote-type</id><content type="html" xml:base="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html">&lt;p&gt;先日,&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://abap34.github.io/my-website/feed.xml" rel="self" type="application/atom+xml" /><link href="https://abap34.github.io/my-website/" rel="alternate" type="text/html" /><updated>2021-03-17T07:54:26-05:00</updated><id>https://abap34.github.io/my-website/feed.xml</id><title type="html">ShibaInu-Doc</title><subtitle>勉強したことや作ったもの、日記とかをゆっくり書いていきます。</subtitle><entry><title type="html">Juliaの型変換とpromotion(昇格)</title><link href="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html" rel="alternate" type="text/html" title="Juliaの型変換とpromotion(昇格)" /><published>2021-03-17T00:00:00-05:00</published><updated>2021-03-17T00:00:00-05:00</updated><id>https://abap34.github.io/my-website/julialang/2021/03/17/promote-type</id><content type="html" xml:base="https://abap34.github.io/my-website/julialang/2021/03/17/promote-type.html">&lt;p&gt;先日,&lt;/p&gt;
 
 &lt;div class=&quot;jekyll-twitter-plugin&quot;&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;ja&quot; dir=&quot;ltr&quot;&gt;すごい今更なんだけど、これもっと簡単に書けないかなぁ &lt;a href=&quot;https://t.co/VocxHNVHvj&quot;&gt;pic.twitter.com/VocxHNVHvj&lt;/a&gt;&lt;/p&gt;&amp;mdash; abap (@abap34) &lt;a href=&quot;https://twitter.com/abap34/status/1371651401311424513?ref_src=twsrc%5Etfw&quot;&gt;March 16, 2021&lt;/a&gt;&lt;/blockquote&gt;
 &lt;script async=&quot;&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
@@ -64,7 +64,7 @@
 
 &lt;p&gt;しかし、常に明示的な変換をする必要があるのは不便なので、例えばAdaでさえも、整数リテラルは自動で期待される整数型に昇格し、また浮動小数のリテラルも自動で同じように適切な浮動小数の型に昇格します。&lt;/p&gt;
 
-&lt;h4 id=&quot;juliaの暗黙の型変換&quot;&gt;Juliaの暗黙の型変換&lt;/h4&gt;
+&lt;h3 id=&quot;juliaの暗黙の型変換&quot;&gt;Juliaの暗黙の型変換&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;ある意味では&lt;/strong&gt;、Juliaは「暗黙の型変換を行わない」陣営に属します。&lt;/p&gt;
 
@@ -74,7 +74,7 @@
 
 &lt;p&gt;そのため、Juliaのシステムを暗黙の型変換のような機構に生かすことができます。&lt;/p&gt;
 
-&lt;h4 id=&quot;juliaの異なる型同士の演算の実装&quot;&gt;Juliaの異なる型同士の演算の実装&lt;/h4&gt;
+&lt;h3 id=&quot;juliaの異なる型同士の演算の実装&quot;&gt;Juliaの異なる型同士の演算の実装&lt;/h3&gt;
 
 &lt;p&gt;Juliaは、ある被演算子の型の組み合わせに関して、特定の実装が存在しない場合呼び出されるルールがあります。&lt;/p&gt;
 
@@ -283,7 +283,7 @@
 &lt;div class=&quot;language-julia highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;convert&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;:&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Number&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;promotion&quot;&gt;Promotion&lt;/h1&gt;
+&lt;h2 id=&quot;promotion&quot;&gt;Promotion&lt;/h2&gt;
 
 &lt;p&gt;昇格(Promotion)とは、さまざまな型の値を共通の型に変換することを指します。&lt;/p&gt;
 
@@ -338,7 +338,7 @@
   &lt;li&gt;実数値と複素数値が混ざった場合は、適切な種類の複素数型に昇格します。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;promotion-rulesの定義&quot;&gt;Promotion Rulesの定義&lt;/h1&gt;
+&lt;h3 id=&quot;promotion-rulesの定義&quot;&gt;Promotion Rulesの定義&lt;/h3&gt;
 
 &lt;p&gt;さて、この昇格を制御するにあたっては、原理的には&lt;code class=&quot;highlighter-rouge&quot;&gt;promote&lt;/code&gt;関数を直接定義することでも実現できますが、&lt;/p&gt;
 
@@ -360,6 +360,8 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;また、&lt;code class=&quot;highlighter-rouge&quot;&gt;promote_rule(::Type{A}, ::Type{B})&lt;/code&gt; と &lt;code class=&quot;highlighter-rouge&quot;&gt;promote_rule(::Type{B}, ::Type{A}&lt;/code&gt;の両方を定義する必要がないことに注意してください。(&lt;code class=&quot;highlighter-rouge&quot;&gt;promote&lt;/code&gt;は対称性を前提として実装されています)&lt;/p&gt;
+
+&lt;h3 id=&quot;promotionjl&quot;&gt;promotion.jl&lt;/h3&gt;
 
 &lt;p&gt;実際の実装は&lt;a href=&quot;https://github.com/JuliaLang/julia/blob/master/base/promotion.jl&quot;&gt;promotion.jl&lt;/a&gt;で見ることができますが、簡潔に処理の流れを記すと、&lt;/p&gt;
 
