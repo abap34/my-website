@@ -463,7 +463,7 @@ body { counter-reset: number 0; background-color: #fdfcf7; padding: 0 20px !impo
 
 .highlighter-rouge .highlight { background: #fffdf7; }
 
-tt, code { background-color: #fffdf7; }
+tt, code { background-color: None; }
 
 .post-content p, .post-content li { font-size: 16px; color: #515151; }
 
