@@ -204,7 +204,7 @@ Stacktrace:
 
 となります。
 
-そのためJuliaでは、専用の関数`parse`を使って明示的この操作をする必要があります。
+そのためJuliaでは、専用の関数`parse`を使って明示的にこの操作をする必要があります。
 
 ```julia
 julia> parse(Int, s)
