@@ -443,13 +443,13 @@ end
 `variable`は実数との演算を行うわけですから,設定すべき`promote_rule`は、
 
 ```julia
-promote_rule(::Type{<:Real}, ::Type{Variable}) = Variable
+Base.promote_rule(::Type{<:Real}, ::Type{Variable}) = Variable
 ```
 
 であり、これらのconvert方法を用意してやればいいです。(すでに内部コンストラクタメソッドが定義されています。)
 
 ```julia
-convert(::Type{Variable}, x::T) where {T <: Real} = Variable(x)
+Base.convert(::Type{Variable}, x::T) where {T <: Real} = Variable(x)
 ```
 
 こうすることで、今まで
@@ -464,8 +464,8 @@ Base.:+(x1::T, x2::Variable) where {T <: Real} = _Add(Variable(x1), x2)
 
 ```julia
 Base.:+(x1::Variable, x2::Variable) = _Add(x1, x2)
-Base.:+(x1::Variable, x2::T) where {T <: Real} = _Add(promote(x1,x2)...)
-Base.:+(x1::T, x2::Variable) where {T <: Real} = _Add(promote(x1, x2)...)
+Base.:+(x1::Variable, x2::T) where {T <: Real} = +(promote(x1, x2)...)
+Base.:+(x1::T, x2::Variable) where {T <: Real} = +(promote(x1, x2)...)
 ```
 
 となりました。
