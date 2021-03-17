@@ -465,4 +465,6 @@ body { counter-reset: number 0; background: #ffffff; padding: 0 20px !important;
 
 tt, code { background-color: #f6f6f6; }
 
+.post-content p, .post-content li { font-size: 16px; color: #515151; }
+
 /*# sourceMappingURL=style.css.map */
