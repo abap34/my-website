@@ -461,7 +461,7 @@ body { counter-reset: number 0; background-color: #fdfcf7; padding: 0 20px !impo
 
 #posts { display: none; }
 
-.highlighter-rouge .highlight { background: #fffdf7; }
+.highlighter-rouge .highlight { background: #fcfaf6; }
 
 tt, code { background-color: None; }
 
