@@ -588,8 +588,7 @@ settings > Environment Variablesから、
 
 さて, このように設定を完了した結果、documentを自動生成し、公開することができました。
 
-https://abap34.github.io/PixelArt.jl/dev/
-
+[](https://abap34.github.io/PixelArt.jl/dev/)
 
 
 # 登録
@@ -726,6 +725,6 @@ search: pixel PixelArt CompositeException ProcessFailedException
 ```
 
 
-無事にdocstringとdocumentも確認できました。(https://abap34.github.io/PixelArt.jl/dev/#)
+無事にdocstringとdocumentも確認できました。[](https://abap34.github.io/PixelArt.jl/dev/#)
 
 どんどん公式パッケージを開発して、Juliaの発展に寄与していきましょう！
