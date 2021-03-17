@@ -470,6 +470,10 @@ Base.:+(x1::T, x2::Variable) where {T <: Real} = _Add(promote(x1, x2)...)
 
 となりました。
 
+
+.....あれ?
+
+
 (promotionを使ったもっといい書き方がある気がする....)
 
 
