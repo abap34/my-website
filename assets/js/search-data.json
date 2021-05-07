@@ -4,9 +4,9 @@
         "post0": {
             "title": "Juliaで画像をドット絵化！",
             "content": "今回は, Juliaを使って画像をドット絵に変換していきたいと思います。 . ドット絵は少ない色とピクセルでイラストを表現する技法です。 . そのため、リアルなドット絵に変換するには、単に画像を小さくリサイズするだけでなく、色を削減する必要があります。 . となると「代表的な色」で多くの色を表現するわけですが、ここではその「代表的な色」を決めるためにk-meansを用います。 . k-meansそのものについては https://qiita.com/g-k/items/0d5d22a12a4507ecbf11　などを参照してください。 . Juliaでは、Clustering.jlのkmeans()を用いることなどで利用できます。 . 実装に関してですが、特別難しいことはしておらず、 単に . resize =&gt; k-meansによる減色 . を行っているだけです。 . 　 . 注意点として、Images.jlなどの画像表現は通常の三次元配列などではなく、RGBを表現するための(他言語と比べて)特殊な型を用いているので、それらと変換するような関数 img_to_arr を用いました。 . (個人的に気持ち悪いな〜と思っているのでもしかしたら間違っているかもしれないです.その際はTwitterなどに連絡をくださると嬉しいです。。。。) . using Images using Clustering using Random using Plots . function img_to_arr(img) # imgを通常の3次元配列に変換 return convert(Array{Float64}, channelview(img)) end . img_to_arr (generic function with 1 method) . function plot_img(img) # 3次元配列をplot plot(colorview(RGB, img)) end . plot_img (generic function with 1 method) . # 画像読み込み img = load(&quot;img.jpg&quot;); . size(img) . (198, 198) . img . using Clustering . function pixel(img; n_color=10, w=64, h=64) # resize img = imresize(img, (w, h)) # 画像を3次元配列に変換したのち, 3 x nの配列に変換(つまり画像内の全ての色を並べた状態) img = reshape(img_to_arr(img), (3, :)) # kmeans color_class = kmeans(img, n_color) # 各色をクラスタ中心で置き換えて減色 img = hcat((x -&gt; color_class.centers[:, x]).(color_class.assignments)...) # 元の形に戻してreturn. return reshape(img, (3, w, h)) end . pixel (generic function with 1 method) . result = pixel(img, n_color=5, w=64, h=64); . plot_img(result) . 無事にドット絵を生成できました！ . &#12362;&#12414;&#12369; . 概念 . result = pixel(img, n_color=2, w=4, h=4); . plot_img(result) .",
-            "url": "https://abap34.github.io/my-website/julialang/image/ml/2021/05/03/dot-art.html",
-            "relUrl": "/julialang/image/ml/2021/05/03/dot-art.html",
-            "date": " • May 3, 2021"
+            "url": "https://abap34.github.io/my-website/julialang/image/ml/2021/05/06/dot-art.html",
+            "relUrl": "/julialang/image/ml/2021/05/06/dot-art.html",
+            "date": " • May 6, 2021"
         }
         
     
