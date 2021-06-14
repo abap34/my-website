@@ -4,17 +4,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>About Me | ShibaInu-Doc</title>
+<title>二乗した時だけ0になる不思議な数字で自動微分を実装する！ | ShibaInu-Doc</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="About Me" />
+<meta property="og:title" content="二乗した時だけ0になる不思議な数字で自動微分を実装する！" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="勉強したことや作ったもの、日記とかをゆっくり書いていきます。" />
-<meta property="og:description" content="勉強したことや作ったもの、日記とかをゆっくり書いていきます。" />
-<link rel="canonical" href="https://abap34.github.io/my-website/about/" />
-<meta property="og:url" content="https://abap34.github.io/my-website/about/" />
+<meta name="description" content="二重数を使った自動微分をJuliaで実装してみる" />
+<meta property="og:description" content="二重数を使った自動微分をJuliaで実装してみる" />
+<link rel="canonical" href="https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html" />
+<meta property="og:url" content="https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html" />
 <meta property="og:site_name" content="ShibaInu-Doc" />
+<meta property="og:image" content="https://abap34.github.io/my-website/images/pr.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-23T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"勉強したことや作ったもの、日記とかをゆっくり書いていきます。","@type":"WebSite","headline":"About Me","url":"https://abap34.github.io/my-website/about/","name":"ShibaInu-Doc","@context":"https://schema.org"}</script>
+{"description":"二重数を使った自動微分をJuliaで実装してみる","@type":"BlogPosting","headline":"二乗した時だけ0になる不思議な数字で自動微分を実装する！","dateModified":"2021-03-23T00:00:00-05:00","datePublished":"2021-03-23T00:00:00-05:00","url":"https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html","image":"https://abap34.github.io/my-website/images/pr.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/my-website/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://abap34.github.io/my-website/feed.xml" title="ShibaInu-Doc" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -23,17 +26,20 @@
 <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-174991393-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
 
 <link rel="shortcut icon" type="image/x-icon" href="/my-website/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>About Me | ShibaInu-Doc</title>
+<title>二乗した時だけ0になる不思議な数字で自動微分を実装する！ | ShibaInu-Doc</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="About Me" />
+<meta property="og:title" content="二乗した時だけ0になる不思議な数字で自動微分を実装する！" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="勉強したことや作ったもの、日記とかをゆっくり書いていきます。" />
-<meta property="og:description" content="勉強したことや作ったもの、日記とかをゆっくり書いていきます。" />
-<link rel="canonical" href="https://abap34.github.io/my-website/about/" />
-<meta property="og:url" content="https://abap34.github.io/my-website/about/" />
+<meta name="description" content="二重数を使った自動微分をJuliaで実装してみる" />
+<meta property="og:description" content="二重数を使った自動微分をJuliaで実装してみる" />
+<link rel="canonical" href="https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html" />
+<meta property="og:url" content="https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html" />
 <meta property="og:site_name" content="ShibaInu-Doc" />
+<meta property="og:image" content="https://abap34.github.io/my-website/images/pr.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-23T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"勉強したことや作ったもの、日記とかをゆっくり書いていきます。","@type":"WebSite","headline":"About Me","url":"https://abap34.github.io/my-website/about/","name":"ShibaInu-Doc","@context":"https://schema.org"}</script>
+{"description":"二重数を使った自動微分をJuliaで実装してみる","@type":"BlogPosting","headline":"二乗した時だけ0になる不思議な数字で自動微分を実装する！","dateModified":"2021-03-23T00:00:00-05:00","datePublished":"2021-03-23T00:00:00-05:00","url":"https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html","image":"https://abap34.github.io/my-website/images/pr.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://abap34.github.io/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -108,39 +114,81 @@ window.onload = wrap_img;
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">About Me</h1>
-  </header>
+    <h1 class="post-title p-name" itemprop="name headline">二乗した時だけ0になる不思議な数字で自動微分を実装する！</h1><p class="page-description">二重数を使った自動微分をJuliaで実装してみる</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-23T00:00:00-05:00" itemprop="datePublished">
+        Mar 23, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
 
-  <div class="post-content">
-    <p><img src="/my-website/images/logo.png" alt="" title="abap34" /></p>
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/my-website/categories/#JuliaLang">JuliaLang</a>
+        
+      
+      </p>
+    
 
-<p>abap34です。愛知県で高校生をしています。
-主に機械学習関連のことをガチャガチャして遊んでいます。
-気軽に話しかけてください！</p>
+    </header>
 
-<p>GitHub: https://github.com/abap34
-<a href="https://github.com/vn7n24fzkq/github-profile-summary-cards"><img src="https://raw.githubusercontent.com/abap34/abap34/master/profile-summary-card-output/vue/0-profile-details.svg" alt="" /></a>
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=abap34&amp;hide=jupyter%20notebook" alt="" /></p>
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#二乗した時に0になる不思議な数字">二乗した時に0になる不思議な数字？</a></li>
+</ul><p>(書いている人は数学が全くできません。特に冒頭部分で誤りや厳密性を書く部分があるかもしれませんが、その際は優しく指摘してくださると嬉しいです…</p>
 
-<p>Twitter: https://twitter.com/abap34</p>
+<p>二重数については <a href="https://www.ajimatics.com/entry/2021/03/22/174633">https://www.ajimatics.com/entry/2021/03/22/174633</a>がとてもわかりやすく、かつ面白いです。)</p>
 
-<p>AtCoder: https://atcoder.jp/users/abap
-<a href="https://atcoder.jp/users/abap"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fatcoder-badges.now.sh%2Fapi%2Fatcoder%2Fjson%2Fabap" alt="abap" /></a></p>
+<h1 id="二乗した時に0になる不思議な数字">
+<a class="anchor" href="#%E4%BA%8C%E4%B9%97%E3%81%97%E3%81%9F%E6%99%82%E3%81%AB0%E3%81%AB%E3%81%AA%E3%82%8B%E4%B8%8D%E6%80%9D%E8%AD%B0%E3%81%AA%E6%95%B0%E5%AD%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>二乗した時に0になる不思議な数字？</h1>
 
-<h2 id="実績など">実績など</h2>
+<p>さて、次のような方程式の解は一体なんでしょうか？</p>
+
+<p>$ x^2 = 0$</p>
+
+<p>はい、どう考えても</p>
+
+<p>$ x = 0$</p>
+
+<p>ですね。</p>
+
+<p>ところで、この方程式にこの他の解はあるでしょうか？</p>
+
+<p>おそらく「ないだろ」という反応が返ってくると思います。一般的には正しいですが、</p>
+
+<p>それは”複素数の範囲で”という前提付きです。</p>
+
+<p>…というわけで、複素数の範囲外の不思議な数字、”二重数”を考えて、</p>
+
+<p>この方程式の解の個数を増やしてみます！</p>
+
+<p>この方程式に0以外の解$\epsilon$を感がてみます。</p>
+
+<p>つまり、$ \epsilon $は、</p>
 
 <ul>
-  <li>パソコン甲子園2020 本戦出場</li>
-  <li>日本循環器学会 第三回全国医療AIコンテスト優勝</li>
+  <li>$\epsilon \neq 0$</li>
+  <li>$\epsilon^2 = 0$　</li>
 </ul>
 
-  </div>
+<p>を満たすような数字です。</p>
 
+<p>(この流れをどこかで見たという人は高校(中学?)の授業をよく聞いていた人で、</p>
+
+<p>まさにこれは虚数を導入した時と同じ流れです！)</p>
+
+<p>というわけで、この「実数ではない謎の数字 $\epsilon $」について考えていくわけですが、</p>
+
+<p>この数字は「二重数」</p>
+
+  </div><a class="u-url" href="/my-website/julialang/2021/03/23/auto-diff-by-dual-numbers.html" hidden></a>
 </article>
-
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/my-website/"></data>
