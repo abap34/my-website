@@ -44,6 +44,7 @@ body {
 .wrapper {
   margin: 0 !important;
   padding: 0 !important;
+  border-bottom:solid 1px #000000;
 }
 
 .site-title:hover {
@@ -78,6 +79,7 @@ body {
   font-size: 16px !important;
   line-height: 1.5;
 }
+
 .site-footer {
   width: 800px;
   max-width: 100%;
