@@ -5,14 +5,31 @@ permalink: /about/
 ---
 
 
-![]({{ site.baseurl }}/images/logo.png "abap34")
+![]({{ site.baseurl }}/images/img.jpg "abap34")
 
-abap34です。愛知県で高校生をしています。
+# 所属
+
+愛知県の某高校 -> 東京工業大学情報理工学院
+
+# 興味
+
+機械学習に興味があります。
+より具体的には、神経っぽい方面から考えてみたり、どんなモデルが上手くいくのか、あるモデルが上手くいくのは何故かを数学的に考えてみたりすることに興味があります。
+そのほかにもコンピュータ全般の仕組みに興味があります。
+Kaggleをはじめとしたデータ分析コンペや、競技プログラミングも少しだけしています。
 
 
-GitHub:[abap34](https://github.com/abap34)
-[![](https://raw.githubusercontent.com/abap34/abap34/master/profile-summary-card-output/vue/0-profile-details.svg)](https://github.com/vn7n24fzkq/github-profile-summary-cards)
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=abap34&hide=jupyter%20notebook)
+# 作ったものや書いたもの
+
+このブログや、GitHub:[abap34](https://github.com/abap34)上で公開しています。
+
+# 使っているもの
+
+Python, Juliaを主に使っています。
+機械学習を使って何かするときはPython, 機械学習の何かを作るときはJuliaを使うことが多いです。
+競技プログラミングのために、ほんのすこしだけC++の知識があります。
+
+# Twitter
 
 Twitter:[abap34](https://twitter.com/abap34)
 
